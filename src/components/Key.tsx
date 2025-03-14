@@ -37,6 +37,13 @@ export function Key(props: KeyProps) {
     height: `${unit * (props.loc.h ?? 1 - 0.1)}px`,
     border: '1px solid black',
     borderRadius: 0.1*unit,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-around",
+    alignItems: "center",
   };
-  return <div style={keyStyle}>{props.binding.tap}</div>;
+  return <div style={keyStyle}>
+    <>{props.binding.shifted}</>
+    <b>{props.binding.tap}</b>
+    </div>;
 }
