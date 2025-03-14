@@ -6,8 +6,8 @@ export type KeymapProps = {
 };
 
 const zipWith =
-  <A, B, C>(as: A[], bs: B[]) =>
-  (f: (a: A, b: B) => C) => {
+  <A, B>(as: A[], bs: B[]) =>
+  <C,>(f: (a: A, b: B) => C): C[] => {
     const res = [];
     for (let i = 0; i < Math.min(as.length, bs.length); i++) {
       res.push(f(as[i], bs[i]));
@@ -15,11 +15,13 @@ const zipWith =
     return res;
   };
 
-export const Keymap = (props: KeymapProps) => {
-  return zipWith(
+export function Keymap(props: KeymapProps) {
+  const keys = zipWith(
     props.matrix,
     props.keys,
   )((loc, binding) => (
     <Key loc={loc} binding={binding} mods={[]} down={false} />
   ));
-};
+
+  return <div style={{ position: 'relative' }}>{keys}</div>;
+}
