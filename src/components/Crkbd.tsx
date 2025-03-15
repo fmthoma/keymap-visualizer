@@ -61,22 +61,22 @@ const corneBase: KeyBinding[] = [
   { layers: ['f', 'F', '=', '9', 'φ', 'Φ'] },
   { layers: ['q', 'Q', '&', '+', 'ϕ', 'ℚ'] },
   { layers: ['ß', 'ẞ', 'ſ', '−', 'ς', ''] },
-              
+
   { tap: 'Copy' },
-  { layers: ['u', 'U', '\\', '', '', '⊂'], hold: 'Gui'},
-  { layers: ['i', 'I', '/', '', '', '∫'], hold: 'Alt'},
-  { layers: ['a', 'A', '{', '', 'α', '∀'], hold: 'Shift'},
-  { layers: ['e', 'E', '}', '', 'ε', '∃'], hold: 'Ctrl'},
+  { layers: ['u', 'U', '\\', '', '', '⊂'], hold: 'Gui' },
+  { layers: ['i', 'I', '/', '', '', '∫'], hold: 'Alt' },
+  { layers: ['a', 'A', '{', '', 'α', '∀'], hold: 'Shift' },
+  { layers: ['e', 'E', '}', '', 'ε', '∃'], hold: 'Ctrl' },
   { layers: ['o', 'O', '*', '', 'ο', ''] },
   { tap: '⇥' },
   { tap: '↵' },
   { layers: ['s', 'S', '?', '¿', 'σ', ''] },
-  { layers: ['n', 'N', '(', '4', 'ν', 'ℕ'], hold: 'Ctrl'},
-  { layers: ['r', 'R', ')', '5', 'ρ', 'ℝ'], hold: 'Shift'},
-  { layers: ['t', 'T', '-', '6', 'τ', '∂'], hold: 'Alt'},
-  { layers: ['d', 'D', ':', ',', 'δ', 'Δ'], hold: 'Gui'},
+  { layers: ['n', 'N', '(', '4', 'ν', 'ℕ'], hold: 'Ctrl' },
+  { layers: ['r', 'R', ')', '5', 'ρ', 'ℝ'], hold: 'Shift' },
+  { layers: ['t', 'T', '-', '6', 'τ', '∂'], hold: 'Alt' },
+  { layers: ['d', 'D', ':', ',', 'δ', 'Δ'], hold: 'Gui' },
   { layers: ['y', 'Y', '@', '.', 'υ', ''] },
-              
+
   { tap: 'Paste' },
   { layers: ['ü', 'Ü', '#', '', '', '∪'] },
   { layers: ['ö', 'Ö', '$', '', '', '∩'] },
@@ -86,7 +86,7 @@ const corneBase: KeyBinding[] = [
   { layers: ['b', 'B', '+', ':', 'β', '⇐'] },
   { layers: ['m', 'M', '%', '1', 'μ', '⇔'] },
   { layers: [',', '–', '"', '2', 'ϱ', '⇒'] },
-  { layers: ['.', '•', '\'', '3', 'ϑ', '↦'] },
+  { layers: ['.', '•', "'", '3', 'ϑ', '↦'] },
   { layers: ['j', 'J', ';', ';', 'θ', 'Θ'] },
   {},
 ];
@@ -106,39 +106,45 @@ const corneArrows: KeyBinding[] = [
   {},
   {},
   {},
-              
+
   { tap: 'Copy' },
-  { tap: 'Gui'},
-  { tap: 'Alt'},
-  { tap: 'Shift'},
-  { tap: 'Ctrl'},
+  { tap: 'Gui' },
+  { tap: 'Alt' },
+  { tap: 'Shift' },
+  { tap: 'Ctrl' },
   {},
   { tap: '⇥' },
   { tap: '↵' },
-  { tap: '←'},
+  { tap: '←' },
   { tap: '↓' },
   { tap: '↑' },
   { tap: '→' },
   {},
   {},
-              
+
   { tap: 'Paste' },
   {},
   {},
   {},
   {},
   {},
-  {tap: '⇱' },
-  {tap: '⇟' },
-  {tap: '⇞' },
-  {tap: '⇲' },
+  { tap: '⇱' },
+  { tap: '⇟' },
+  { tap: '⇞' },
+  { tap: '⇲' },
   {},
   {},
-]
+];
 
 export function Crkbd() {
-  return <div style={{display: "flex", flexDirection: "column"}}>
-  <div style={{height: "320px"}}><Keymap matrix={corneMatrix} keys={corneBase} /></div>
-  <div style={{height: "320px"}}><Keymap matrix={corneMatrix} keys={corneArrows} /></div>
-  </div>
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <div style={{ height: '320px' }}>
+        <Keymap matrix={corneMatrix} keys={corneBase} />
+      </div>
+      <div style={{ height: '320px' }}>
+        <Keymap matrix={corneMatrix} keys={corneArrows} />
+      </div>
+    </div>
+  );
 }

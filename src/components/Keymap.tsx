@@ -42,7 +42,7 @@ export function Keymap(props: KeymapProps) {
   const [modifiers, setModifiers] = useState<Modifier[]>([]);
 
   useEventListener('keydown', (e: KeyboardEvent) => {
-    console.log(e.code, "down");
+    console.log(e.code, 'down');
     switch (e.code) {
       case 'ShiftLeft':
       case 'ShiftRight':
@@ -59,7 +59,7 @@ export function Keymap(props: KeymapProps) {
     }
   });
   useEventListener('keyup', (e: KeyboardEvent) => {
-    console.log(e.code, "up");
+    console.log(e.code, 'up');
     switch (e.code) {
       case 'ShiftLeft':
       case 'ShiftRight':
@@ -80,7 +80,13 @@ export function Keymap(props: KeymapProps) {
     props.matrix,
     props.keys,
   )((loc, binding, index) => (
-    <Key loc={loc} binding={binding} mods={modifiers} down={false} key={index} />
+    <Key
+      loc={loc}
+      binding={binding}
+      mods={modifiers}
+      down={false}
+      key={index}
+    />
   ));
 
   return <div style={{ position: 'relative' }}>{keys}</div>;
