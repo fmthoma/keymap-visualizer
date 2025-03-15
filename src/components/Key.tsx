@@ -34,25 +34,6 @@ const fingerColors: { [K in Finger]: string } = {
 };
 
 export function Key({ loc, binding, mods }: KeyProps) {
-  const unit = 64;
-  const keyStyle: CSSProperties = {
-    position: 'absolute',
-    left: `${unit * (loc.x - 0.5 * (loc.w ?? 1))}px`,
-    top: `${unit * (loc.y - 0.5 * (loc.h ?? 1))}px`,
-    width: `${unit * ((loc.w ?? 1) - 0.1)}px`,
-    height: `${unit * ((loc.h ?? 1) - 0.1)}px`,
-    border: '1px solid black',
-    borderRadius: 0.1 * unit,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    backgroundColor: `${fingerColors[loc.finger]}${binding.pressed ? '80' : 'ff'}`,
-    rotate: `${loc.phi}rad`,
-    fontFamily: 'monospace',
-    color: '#002b36'
-  };
-
   const layer =
     mods.length === 0
       ? 1
@@ -67,11 +48,39 @@ export function Key({ loc, binding, mods }: KeyProps) {
               : mods.every((v) => v === 'Mod3' || v === 'Mod4')
                 ? 6
                 : 1;
+
   const tapLabel = binding.layers?.[layer - 1] ?? binding.tap;
-  const holdLabel = layer === 1 ? binding.hold : undefined;
+
+  const pressed =
+    binding.pressed ||
+    (loc.finger == 'Thumb' &&
+      tapLabel &&
+      mods.includes(tapLabel as Modifier)) ||
+    (loc.finger == 'Thumb' &&
+      binding.hold &&
+      mods.includes(binding.hold as Modifier));
+  const holdLabel = layer === 1 || pressed ? binding.hold : undefined;
+
+  const unit = 64;
+  const keyStyle: CSSProperties = {
+    position: 'absolute',
+    left: `${unit * (loc.x - 0.5 * (loc.w ?? 1))}px`,
+    top: `${unit * (loc.y - 0.5 * (loc.h ?? 1))}px`,
+    width: `${unit * ((loc.w ?? 1) - 0.1)}px`,
+    height: `${unit * ((loc.h ?? 1) - 0.1)}px`,
+    border: '1px solid black',
+    borderRadius: 0.1 * unit,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    backgroundColor: `${fingerColors[loc.finger]}${pressed ? '80' : 'ff'}`,
+    rotate: `${loc.phi}rad`,
+    color: '#002b36',
+  };
 
   return (
-    <div style={keyStyle}>
+    <div style={{ ...keyStyle, ...(tapLabel ? {} : { opacity: 0.5 }) }}>
       <b style={{ fontSize: unit / 3 }}>{tapLabel}</b>
       <span style={{ fontSize: unit / 8 }}>{holdLabel}</span>
     </div>

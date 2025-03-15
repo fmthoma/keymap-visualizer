@@ -12,7 +12,7 @@ body {
   color: white;
   height: 100vh;
   background: #fdf6e3;
-  font-family: sans-serif;
+  font-family: 'monospace';
   overflow-y: hidden;
   display: flex;
   justify-content: center;
