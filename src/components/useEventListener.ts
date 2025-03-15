@@ -1,9 +1,8 @@
 import { EventHandler, useEffect, useRef } from 'react';
 
 export const useEventListener = (
-  eventName: string,
+  eventName: keyof WindowEventMap,
   handler: (event: any) => void,
-  element = window,
 ) => {
   const savedHandler = useRef<EventHandler<any>>();
   useEffect(() => {
@@ -15,9 +14,9 @@ export const useEventListener = (
         savedHandler.current(event);
       }
     };
-    element.addEventListener(eventName, eventListener);
+    window.addEventListener(eventName, eventListener);
     return () => {
-      element.removeEventListener(eventName, eventListener);
+      window.removeEventListener(eventName, eventListener);
     };
-  }, [eventName, element]);
+  }, [eventName]);
 };

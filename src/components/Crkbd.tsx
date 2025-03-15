@@ -330,14 +330,17 @@ export function Crkbd() {
     overflowY: 'visible',
   });
 
-  useEventListener('resize', () => {
+  const handleResize = () => {
     if (rootElement.current) {
       console.log(rootElement.current.clientWidth);
       const zoomX = window.innerWidth / rootElement.current.clientWidth;
       const zoomY = window.innerHeight / rootElement.current.clientHeight;
       setZoom(Math.min(zoomX, zoomY));
     }
-  });
+  };
+
+  useEventListener('resize', handleResize);
+  useEventListener('load', handleResize);
 
   return (
     <div
