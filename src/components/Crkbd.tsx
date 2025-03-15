@@ -1,6 +1,6 @@
 import { CSSProperties, useRef, useState } from 'react';
 import { KeyBinding, KeyLoc } from './Key';
-import { Keymap } from './Keymap';
+import { Combo, Keymap } from './Keymap';
 import { useEventListener } from './useEventListener';
 
 const corneMatrix: KeyLoc[] = [
@@ -310,6 +310,8 @@ const corneNumpad = [
   { tap: 'Num+Fn' },
 ];
 
+const combos: Combo[] = [{ keys: ['m', ','], action: 'Esc' }];
+
 export function Crkbd() {
   const rootElement = useRef<HTMLDivElement>(null);
   const [activeLayer, setActiveLayer] = useState(0);
@@ -354,7 +356,7 @@ export function Crkbd() {
       ref={rootElement}
     >
       <div style={keymapStyle(0)}>
-        <Keymap matrix={corneMatrix} keys={corneBase} />
+        <Keymap matrix={corneMatrix} keys={corneBase} combos={combos} />
       </div>
       <div style={keymapStyle(1)}>
         <Keymap matrix={corneMatrix} keys={corneArrows} />

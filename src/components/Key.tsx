@@ -1,5 +1,7 @@
 import { CSSProperties, useEffect, useRef } from 'react';
 
+export const unit = 64;
+
 export type Modifier = 'Shift' | 'Mod3' | 'Mod4';
 export type Finger = 'Pinky' | 'Ring' | 'Middle' | 'Index' | 'Thumb';
 
@@ -67,7 +69,6 @@ export function Key({ loc, binding, mods }: KeyProps) {
       mods.includes(binding.hold as Modifier));
   const holdLabel = layer === 1 || pressed ? binding.hold : undefined;
 
-  const unit = 64;
   const keyStyle: CSSProperties = {
     position: 'absolute',
     left: `${unit * (loc.x - 0.5 * (loc.w ?? 1))}px`,
