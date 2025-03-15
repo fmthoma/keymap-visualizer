@@ -84,7 +84,6 @@ export function Keymap(props: KeymapProps) {
       loc={loc}
       binding={binding}
       mods={modifiers}
-      down={false}
       key={index}
     />
   ));

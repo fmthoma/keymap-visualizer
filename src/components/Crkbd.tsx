@@ -244,7 +244,7 @@ const corneNumfn = [
   { tap: 'Ins', hold: 'Mod4' },
   { tap: 'Esc', hold: 'Mod3' },
   { tap: 'Space', hold: 'Arrows' },
-  { tap: 'Num+Fn' },
+  { tap: 'Num+Fn', pressed: true },
 ];
 
 export function Crkbd() {

@@ -68,21 +68,21 @@ export function Key({ loc, binding, mods }: KeyProps) {
     top: `${unit * (loc.y - 0.5 * (loc.h ?? 1))}px`,
     width: `${unit * ((loc.w ?? 1) - 0.1)}px`,
     height: `${unit * ((loc.h ?? 1) - 0.1)}px`,
-    border: '1px solid black',
+    border: pressed ? '2px solid #b58900' : '1px solid #002b36',
     borderRadius: 0.1 * unit,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: `${fingerColors[loc.finger]}${pressed ? '80' : 'ff'}`,
+    backgroundColor: `${fingerColors[loc.finger]}${pressed ? '40' : 'ff'}`,
     rotate: `${loc.phi}rad`,
     color: '#002b36',
   };
 
   return (
-    <div style={{ ...keyStyle, ...(tapLabel ? {} : { opacity: 0.5 }) }}>
+    <div style={{ ...keyStyle, ...(tapLabel ? {} : { opacity: 0.25 }) }}>
       <b style={{ fontSize: unit / 3 }}>{tapLabel}</b>
-      <span style={{ fontSize: unit / 8 }}>{holdLabel}</span>
+      {holdLabel && <span style={{ fontSize: unit / 8 }}>{holdLabel}</span>}
     </div>
   );
 }
