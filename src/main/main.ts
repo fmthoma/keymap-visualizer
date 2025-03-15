@@ -9,7 +9,7 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, shell, ipcMain, Menu } from 'electron';
+import { app, BrowserWindow, shell, ipcMain, Menu, Tray } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { resolveHtmlPath } from './util';
@@ -23,6 +23,7 @@ class AppUpdater {
 }
 
 let mainWindow: BrowserWindow | null = null;
+let tray: Tray | null = null;
 
 ipcMain.on('ipc-example', async (event, arg) => {
   const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
@@ -112,6 +113,13 @@ const createWindow = async () => {
 
   mainWindow.on('closed', () => {
     if (mainWindow && !mainWindow.isDestroyed()) mainWindow.hide();
+  });
+
+  tray = new Tray(getAssetPath('icon.png'));
+  tray.setToolTip("Hello World");
+  tray.on('click', () => {
+    if (mainWindow && mainWindow.isFocused()) mainWindow.hide();
+    else mainWindow?.show();
   });
 
   // Remove this if your app does not use auto updates
