@@ -29,16 +29,17 @@ export function Key({ loc, binding, mods, down }: KeyProps) {
     position: 'absolute',
     left: `${unit * (loc.x - 0.5 * (loc.w ?? 1))}px`,
     top: `${unit * (loc.y - 0.5 * (loc.h ?? 1))}px`,
-    width: `${unit * ((loc.w ?? 1) - 0 * 0.1)}px`,
-    height: `${unit * ((loc.h ?? 1) - 0 * 0.1)}px`,
+    width: `${unit * ((loc.w ?? 1) - 0.1)}px`,
+    height: `${unit * ((loc.h ?? 1) - 0.1)}px`,
     border: '1px solid black',
-    // borderRadius: 0.1 * unit,
+    borderRadius: 0.1 * unit,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-around',
     alignItems: 'center',
     background: `rgb(255, 255, 255, ${down ? 128 : 0})`,
     rotate: `${loc.phi}rad`,
+    fontFamily: "monospace",
   };
 
   const layer =

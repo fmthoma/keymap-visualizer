@@ -191,6 +191,58 @@ const corneArrows: KeyBinding[] = [
   { tap: "Num+Fn"},
 ];
 
+const corneNumfn = [
+  { layers: ['◌̂', '◌̌', '↻', '◌̇', '\u25cc\u02de', '◌̣'] },
+  { layers: ['1', '°', '¹', 'ª', '₁', '¬'] },
+  { layers: ['2', '§', '²', 'º', '₂', '∨'] },
+  { layers: ['3', 'ℓ', '³', '№', '₃', '∧'] },
+  { layers: ['4', '»', '›', '', '♀', '⊥'] },
+  { layers: ['5', '«', '‹', '·', '♂', '∡'] },
+  { tap: '⌦' },
+  { tap: '⌫' },
+  { layers: ['6', '$', '¢', '£', '⚥', '∥'] },
+  { layers: ['7', '€', '¥', '¤', 'ϰ', '→'] },
+  { layers: ['8', '„', '‚', '⇥', '⟨', '∞'] },
+  { layers: ['9', '“', '‘', '/', '⟩', '∝'] },
+  { layers: ['0', '”', '’', '*', '₀', '∅'] },
+  { layers: ['-', '—', '', '-', '‑', '­'] },
+
+  {},
+  { tap: 'Gui' },
+  { tap: 'Alt' },
+  { tap: 'Shift' },
+  { tap: 'Ctrl' },
+  {},
+  { tap: '⇥' },
+  { tap: '↵' },
+  {},
+  { tap: 'Ctrl' },
+  { tap: 'Shift' },
+  { tap: 'Alt' },
+  { tap: 'Gui' },
+  {},
+
+  { tap: 'F1' },
+  { tap: 'F2' },
+  { tap: 'F3' },
+  { tap: 'F4' },
+  { tap: 'F5' },
+  { tap: 'F6' },
+  { tap: 'F7' },
+  { tap: 'F8' },
+  { tap: 'F9' },
+  { tap: 'F10' },
+  { tap: 'F11' },
+  { tap: 'F12' },
+
+  { tap: "Gui" },
+  { tap: "Shift" },
+  { tap: "Ins", hold: "Mod4" },
+  { tap: "Esc", hold: "Mod3" },
+  { tap: "Space", hold: "Arrows" },
+  { tap: "Num+Fn"},
+];
+
 export function Crkbd() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -199,6 +251,9 @@ export function Crkbd() {
       </div>
       <div style={{ height: '320px' }}>
         <Keymap matrix={corneMatrix} keys={corneArrows} />
+      </div>
+      <div style={{ height: '320px' }}>
+        <Keymap matrix={corneMatrix} keys={corneNumfn} />
       </div>
     </div>
   );
