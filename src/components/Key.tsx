@@ -98,7 +98,7 @@ export function Key({ loc, binding, mods }: KeyProps) {
   };
 
   useEffect(() => {
-    if(keyOutline.current && mainKeyLabel.current) {
+    if (keyOutline.current && mainKeyLabel.current) {
       const availableWidth = keyOutline.current.clientWidth * 0.8;
       const requiredWidth = mainKeyLabel.current.clientWidth;
       const factor = availableWidth / requiredWidth;
@@ -107,10 +107,15 @@ export function Key({ loc, binding, mods }: KeyProps) {
   }, [keyOutline, mainKeyLabel]);
 
   return (
-    <div style={{ ...keyStyle, ...(tapLabel ? {} : { opacity: 0.25 }) }} ref={keyOutline}>
+    <div
+      style={{ ...keyStyle, ...(tapLabel ? {} : { opacity: 0.25 }) }}
+      ref={keyOutline}
+    >
       <button onClick={copyToClipboard(tapLabel)} style={{ all: 'unset' }}>
         <div style={keyLabelStyle}>
-          <b style={{ fontSize: unit / 3 }} ref={mainKeyLabel}>{tapLabel}</b>
+          <b style={{ fontSize: unit / 3 }} ref={mainKeyLabel}>
+            {tapLabel}
+          </b>
           {holdLabel && <span style={{ fontSize: unit / 8 }}>{holdLabel}</span>}
         </div>
       </button>

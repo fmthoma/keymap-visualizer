@@ -116,7 +116,7 @@ const createWindow = async () => {
   });
 
   tray = new Tray(getAssetPath('icon.png'));
-  tray.setToolTip("Hello World");
+  tray.setToolTip('Hello World');
   tray.on('click', () => {
     if (mainWindow && mainWindow.isFocused()) mainWindow.hide();
     else mainWindow?.show();
