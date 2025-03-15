@@ -45,33 +45,15 @@ export function Keymap({ matrix, keys: bindings }: KeymapProps) {
     switch (e.code) {
       case 'ShiftLeft':
       case 'ShiftRight':
-        setModifiers(['Shift', ...modifiers]);
+        setModifiers(modifiers.includes('Shift') ? modifiers.filter(m => m !== 'Shift') : ['Shift', ...modifiers]);
         break;
       case 'CapsLock':
       case 'Backslash':
-        setModifiers(['Mod3', ...modifiers]);
+        setModifiers(modifiers.includes('Mod3') ? modifiers.filter(m => m !== 'Mod3') : ['Mod3', ...modifiers]);
         break;
       case 'IntlBackslash':
       case 'AltRight':
-        setModifiers(['Mod4', ...modifiers]);
-        break;
-      default:
-        break;
-    }
-  });
-  useEventListener('keyup', (e: KeyboardEvent) => {
-    switch (e.code) {
-      case 'ShiftLeft':
-      case 'ShiftRight':
-        setModifiers(modifiers.filter((mod) => mod !== 'Shift'));
-        break;
-      case 'CapsLock':
-      case 'Backslash':
-        setModifiers(modifiers.filter((mod) => mod !== 'Mod3'));
-        break;
-      case 'IntlBackslash':
-      case 'AltRight':
-        setModifiers(modifiers.filter((mod) => mod !== 'Mod4'));
+        setModifiers(modifiers.includes('Mod4') ? modifiers.filter(m => m !== 'Mod4') : ['Mod4', ...modifiers]);
         break;
       default:
         break;
