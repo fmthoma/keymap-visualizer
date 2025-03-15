@@ -46,7 +46,7 @@ const corneMatrix: KeyLoc[] = [
   { x: 7, y: 1.25 },
 ];
 
-const corneKeys: KeyBinding[] = [
+const corneBase: KeyBinding[] = [
   { tap: 'Cut' },
   { layers: ['x', 'X', '…', '', 'ξ', 'Ξ'] },
   { layers: ['v', 'V', '_', '', '', '√'] },
@@ -91,6 +91,54 @@ const corneKeys: KeyBinding[] = [
   {},
 ];
 
+const corneArrows: KeyBinding[] = [
+  { tap: 'Cut' },
+  {},
+  {},
+  {},
+  {},
+  {},
+  { tap: '⌦' },
+  { tap: '⌫' },
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+              
+  { tap: 'Copy' },
+  { tap: 'Gui'},
+  { tap: 'Alt'},
+  { tap: 'Shift'},
+  { tap: 'Ctrl'},
+  {},
+  { tap: '⇥' },
+  { tap: '↵' },
+  { tap: '←'},
+  { tap: '↓' },
+  { tap: '↑' },
+  { tap: '→' },
+  {},
+  {},
+              
+  { tap: 'Paste' },
+  {},
+  {},
+  {},
+  {},
+  {},
+  {tap: '⇱' },
+  {tap: '⇟' },
+  {tap: '⇞' },
+  {tap: '⇲' },
+  {},
+  {},
+]
+
 export function Crkbd() {
-  return <Keymap matrix={corneMatrix} keys={corneKeys} />;
+  return <div style={{display: "flex", flexDirection: "column"}}>
+  <div style={{height: "320px"}}><Keymap matrix={corneMatrix} keys={corneBase} /></div>
+  <div style={{height: "320px"}}><Keymap matrix={corneMatrix} keys={corneArrows} /></div>
+  </div>
 }
