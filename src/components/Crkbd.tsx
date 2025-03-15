@@ -142,8 +142,8 @@ const corneBase: KeyBinding[] = [
 
   { tap: 'Gui' },
   { tap: 'Shift' },
-  { tap: 'Ins', hold: 'Mod4' },
-  { tap: 'Esc', hold: 'Mod3' },
+  { tap: 'Mod4' },
+  { tap: 'Mod3' },
   {
     layers: ['Space', 'Space', 'Space', '0', 'Space', 'Space'],
     hold: 'Arrows',
@@ -197,8 +197,8 @@ const corneArrows: KeyBinding[] = [
 
   { tap: 'Gui' },
   { tap: 'Shift' },
-  { tap: 'Ins', hold: 'Mod4' },
-  { tap: 'Esc', hold: 'Mod3' },
+  { tap: 'Mod4' },
+  { tap: 'Mod3' },
   { tap: 'Space', hold: 'Arrows', pressed: true },
   { tap: 'Num+Fn' },
 ];
@@ -252,8 +252,8 @@ const corneNumfn = [
 
   { tap: 'Gui' },
   { tap: 'Shift' },
-  { tap: 'Ins', hold: 'Mod4' },
-  { tap: 'Esc', hold: 'Mod3' },
+  { tap: 'Mod4' },
+  { tap: 'Mod3' },
   { tap: 'Space', hold: 'Arrows' },
   { tap: 'Num+Fn', pressed: true },
 ];
@@ -304,13 +304,16 @@ const corneNumpad = [
 
   { tap: 'Gui' },
   { tap: 'Shift' },
-  { tap: 'Ins', hold: 'Mod4' },
-  { tap: 'Esc', hold: 'Mod3' },
+  { tap: 'Mod4' },
+  { tap: 'Mod3' },
   { tap: 'Space', hold: 'Arrows' },
   { tap: 'Num+Fn' },
 ];
 
-const combos: Combo[] = [{ keys: ['m', ','], action: 'Esc' }];
+const combos: Combo[] = [
+  { keys: ['m', ','], action: 'Esc' },
+  { keys: ['ä', 'p'], action: 'Ins' },
+];
 
 export function Crkbd() {
   const rootElement = useRef<HTMLDivElement>(null);
