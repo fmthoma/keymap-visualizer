@@ -1,10 +1,12 @@
 import { CSSProperties } from 'react';
 
 export type Modifier = 'Shift' | 'Mod3' | 'Mod4';
+export type Finger = 'Pinky' | 'Ring' | 'Middle' | 'Index' | 'Thumb';
 
 export type KeyLoc = {
   x: number;
   y: number;
+  finger: Finger;
   w?: number;
   h?: number;
   phi?: number;
@@ -14,17 +16,25 @@ export type KeyBinding = {
   tap?: string;
   hold?: string;
   layers?: string[];
+  pressed?: boolean;
 };
 
 export type KeyProps = {
   loc: KeyLoc;
   binding: KeyBinding;
   mods: Modifier[];
-  down: boolean;
 };
 
-export function Key({ loc, binding, mods, down }: KeyProps) {
-  const unit = 80;
+const fingerColors: { [K in Finger]: string } = {
+  Pinky: '#859900',
+  Ring: '#2aa198',
+  Middle: '#268bd2',
+  Index: '#6c71c4',
+  Thumb: '#d33682',
+};
+
+export function Key({ loc, binding, mods }: KeyProps) {
+  const unit = 64;
   const keyStyle: CSSProperties = {
     position: 'absolute',
     left: `${unit * (loc.x - 0.5 * (loc.w ?? 1))}px`,
@@ -37,9 +47,10 @@ export function Key({ loc, binding, mods, down }: KeyProps) {
     flexDirection: 'column',
     justifyContent: 'space-around',
     alignItems: 'center',
-    background: `rgb(255, 255, 255, ${down ? 128 : 0})`,
+    backgroundColor: `${fingerColors[loc.finger]}${binding.pressed ? '80' : 'ff'}`,
     rotate: `${loc.phi}rad`,
-    fontFamily: "monospace",
+    fontFamily: 'monospace',
+    color: '#002b36'
   };
 
   const layer =

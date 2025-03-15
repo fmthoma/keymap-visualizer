@@ -2,56 +2,58 @@ import { KeyBinding, KeyLoc } from './Key';
 import { Keymap } from './Keymap';
 
 const corneMatrix: KeyLoc[] = [
-  { x: -7, y: -0.75 },
-  { x: -6, y: -0.75 },
-  { x: -5, y: -1 },
-  { x: -4, y: -1.125 },
-  { x: -3, y: -1 },
-  { x: -2, y: -0.875 },
-  { x: -1, y: -0.375 },
-  { x: 1, y: -0.375 },
-  { x: 2, y: -0.875 },
-  { x: 3, y: -1 },
-  { x: 4, y: -1.125 },
-  { x: 5, y: -1 },
-  { x: 6, y: -0.75 },
-  { x: 7, y: -0.75 },
+  { finger: 'Pinky', x: -7, y: -0.75 },
+  { finger: 'Pinky', x: -6, y: -0.75 },
+  { finger: 'Ring', x: -5, y: -1 },
+  { finger: 'Middle', x: -4, y: -1.125 },
+  { finger: 'Index', x: -3, y: -1 },
+  { finger: 'Index', x: -2, y: -0.875 },
+  { finger: 'Index', x: -1, y: -0.375 },
+  { finger: 'Index', x: 1, y: -0.375 },
+  { finger: 'Index', x: 2, y: -0.875 },
+  { finger: 'Index', x: 3, y: -1 },
+  { finger: 'Middle', x: 4, y: -1.125 },
+  { finger: 'Ring', x: 5, y: -1 },
+  { finger: 'Pinky', x: 6, y: -0.75 },
+  { finger: 'Pinky', x: 7, y: -0.75 },
 
-  { x: -7, y: 0.25 },
-  { x: -6, y: 0.25 },
-  { x: -5, y: 0 },
-  { x: -4, y: -0.125 },
-  { x: -3, y: 0 },
-  { x: -2, y: 0.125 },
-  { x: -1, y: 0.625 },
-  { x: 1, y: 0.625 },
-  { x: 2, y: 0.125 },
-  { x: 3, y: 0 },
-  { x: 4, y: -0.125 },
-  { x: 5, y: 0 },
-  { x: 6, y: 0.25 },
-  { x: 7, y: 0.25 },
+  { finger: 'Pinky', x: -7, y: 0.25 },
+  { finger: 'Pinky', x: -6, y: 0.25 },
+  { finger: 'Ring', x: -5, y: 0 },
+  { finger: 'Middle', x: -4, y: -0.125 },
+  { finger: 'Index', x: -3, y: 0 },
+  { finger: 'Index', x: -2, y: 0.125 },
+  { finger: 'Index', x: -1, y: 0.625 },
+  { finger: 'Index', x: 1, y: 0.625 },
+  { finger: 'Index', x: 2, y: 0.125 },
+  { finger: 'Index', x: 3, y: 0 },
+  { finger: 'Middle', x: 4, y: -0.125 },
+  { finger: 'Ring', x: 5, y: 0 },
+  { finger: 'Pinky', x: 6, y: 0.25 },
+  { finger: 'Pinky', x: 7, y: 0.25 },
 
-  { x: -7, y: 1.25 },
-  { x: -6, y: 1.25 },
-  { x: -5, y: 1 },
-  { x: -4, y: 0.875 },
-  { x: -3, y: 1 },
-  { x: -2, y: 1.125 },
-  { x: 2, y: 1.125 },
-  { x: 3, y: 1 },
-  { x: 4, y: 0.875 },
-  { x: 5, y: 1 },
-  { x: 6, y: 1.25 },
-  { x: 7, y: 1.25 },
+  { finger: 'Pinky', x: -7, y: 1.25 },
+  { finger: 'Pinky', x: -6, y: 1.25 },
+  { finger: 'Ring', x: -5, y: 1 },
+  { finger: 'Middle', x: -4, y: 0.875 },
+  { finger: 'Index', x: -3, y: 1 },
+  { finger: 'Index', x: -2, y: 1.125 },
+  { finger: 'Index', x: 2, y: 1.125 },
+  { finger: 'Index', x: 3, y: 1 },
+  { finger: 'Middle', x: 4, y: 0.875 },
+  { finger: 'Ring', x: 5, y: 1 },
+  { finger: 'Pinky', x: 6, y: 1.25 },
+  { finger: 'Pinky', x: 7, y: 1.25 },
 
-  { x: -3.5, y: 2.125 },
+  { finger: 'Thumb', x: -3.5, y: 2.125 },
   {
+    finger: 'Thumb',
     x: -3 + Math.cos((33.06 / 180) * Math.PI) * Math.sqrt(0.5),
     y: 2.125 + 0.5 - Math.sin((33.06 / 180) * Math.PI) * Math.sqrt(0.5),
     phi: (11.94 / 180) * Math.PI,
   },
   {
+    finger: 'Thumb',
     x:
       -3 +
       Math.cos((11.94 / 180) * Math.PI) +
@@ -66,6 +68,7 @@ const corneMatrix: KeyLoc[] = [
     h: 1.5,
   },
   {
+    finger: 'Thumb',
     x:
       3 -
       Math.cos((11.94 / 180) * Math.PI) -
@@ -80,11 +83,12 @@ const corneMatrix: KeyLoc[] = [
     h: 1.5,
   },
   {
+    finger: 'Thumb',
     x: 3 - Math.cos((33.06 / 180) * Math.PI) * Math.sqrt(0.5),
     y: 2.125 + 0.5 - Math.sin((33.06 / 180) * Math.PI) * Math.sqrt(0.5),
     phi: (-11.94 / 180) * Math.PI,
   },
-  { x: 3.5, y: 2.125 },
+  { finger: 'Thumb', x: 3.5, y: 2.125 },
 ];
 
 const corneBase: KeyBinding[] = [
@@ -131,12 +135,12 @@ const corneBase: KeyBinding[] = [
   { layers: ['j', 'J', ';', ';', 'θ', 'Θ'] },
   {},
 
-  { tap: "Gui" },
-  { tap: "Shift" },
-  { tap: "Ins", hold: "Mod4" },
-  { tap: "Esc", hold: "Mod3" },
-  { tap: "Space", hold: "Arrows" },
-  { tap: "Num+Fn"},
+  { tap: 'Gui' },
+  { tap: 'Shift' },
+  { tap: 'Ins', hold: 'Mod4' },
+  { tap: 'Esc', hold: 'Mod3' },
+  { tap: 'Space', hold: 'Arrows' },
+  { tap: 'Num+Fn' },
 ];
 
 const corneArrows: KeyBinding[] = [
@@ -183,12 +187,12 @@ const corneArrows: KeyBinding[] = [
   {},
   {},
 
-  { tap: "Gui" },
-  { tap: "Shift" },
-  { tap: "Ins", hold: "Mod4" },
-  { tap: "Esc", hold: "Mod3" },
-  { tap: "Space", hold: "Arrows" },
-  { tap: "Num+Fn"},
+  { tap: 'Gui' },
+  { tap: 'Shift' },
+  { tap: 'Ins', hold: 'Mod4' },
+  { tap: 'Esc', hold: 'Mod3' },
+  { tap: 'Space', hold: 'Arrows', pressed: true },
+  { tap: 'Num+Fn' },
 ];
 
 const corneNumfn = [
@@ -235,12 +239,12 @@ const corneNumfn = [
   { tap: 'F11' },
   { tap: 'F12' },
 
-  { tap: "Gui" },
-  { tap: "Shift" },
-  { tap: "Ins", hold: "Mod4" },
-  { tap: "Esc", hold: "Mod3" },
-  { tap: "Space", hold: "Arrows" },
-  { tap: "Num+Fn"},
+  { tap: 'Gui' },
+  { tap: 'Shift' },
+  { tap: 'Ins', hold: 'Mod4' },
+  { tap: 'Esc', hold: 'Mod3' },
+  { tap: 'Space', hold: 'Arrows' },
+  { tap: 'Num+Fn' },
 ];
 
 export function Crkbd() {
