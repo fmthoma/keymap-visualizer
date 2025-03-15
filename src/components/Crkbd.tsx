@@ -105,7 +105,10 @@ const corneBase: KeyBinding[] = [
   { layers: ['g', 'G', '>', '8', 'γ', 'Γ'] },
   { layers: ['f', 'F', '=', '9', 'φ', 'Φ'] },
   { layers: ['q', 'Q', '&', '+', 'ϕ', 'ℚ'] },
-  { layers: ['ß', 'ẞ', 'ſ', '−', 'ς', ''] },
+  {
+    layers: ['ß', 'ẞ', 'ſ', '−', 'ς', ''],
+    doubleTap: { layers: ['◌̀', '◌̧', '◌̊', '◌̈', '◌̔', '◌̄'] },
+  },
 
   { tap: 'Copy' },
   { layers: ['u', 'U', '\\', '⇱', '', '⊂'], hold: 'Gui' },
@@ -140,7 +143,7 @@ const corneBase: KeyBinding[] = [
   { tap: 'Ins', hold: 'Mod4' },
   { tap: 'Esc', hold: 'Mod3' },
   { tap: 'Space', hold: 'Arrows' },
-  { tap: 'Num+Fn' },
+  { tap: 'Num+Fn', doubleTap: { tap: '🎙️' } },
 ];
 
 const corneArrows: KeyBinding[] = [
@@ -209,7 +212,10 @@ const corneNumfn = [
   { layers: ['8', '„', '‚', '⇥', '⟨', '∞'] },
   { layers: ['9', '“', '‘', '/', '⟩', '∝'] },
   { layers: ['0', '”', '’', '*', '₀', '∅'] },
-  { layers: ['-', '—', '', '-', '‑', '­'] },
+  {
+    layers: ['-', '—', '', '-', '‑', '­'],
+    doubleTap: { layers: ['◌́', '◌̧', '◌̸', '◌̋', '◌̓', '◌̆'] },
+  },
 
   {},
   { tap: 'Gui' },

@@ -17,6 +17,7 @@ export type KeyBinding = {
   hold?: string;
   layers?: string[];
   pressed?: boolean;
+  doubleTap?: KeyBinding;
 };
 
 export type KeyProps = {
@@ -71,7 +72,7 @@ export function Key({ loc, binding, mods }: KeyProps) {
     border: pressed ? '2px solid #b58900' : '1px solid #002b36',
     borderRadius: 0.1 * unit,
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
     backgroundColor: `${fingerColors[loc.finger]}${pressed ? '40' : 'ff'}`,
@@ -81,8 +82,34 @@ export function Key({ loc, binding, mods }: KeyProps) {
 
   return (
     <div style={{ ...keyStyle, ...(tapLabel ? {} : { opacity: 0.25 }) }}>
-      <b style={{ fontSize: unit / 3 }}>{tapLabel}</b>
-      {holdLabel && <span style={{ fontSize: unit / 8 }}>{holdLabel}</span>}
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-around',
+          alignItems: 'center',
+        }}
+      >
+        <b style={{ fontSize: unit / 3 }}>{tapLabel}</b>
+        {holdLabel && <span style={{ fontSize: unit / 8 }}>{holdLabel}</span>}
+      </div>
+      {binding.doubleTap && (
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-around',
+            alignItems: 'center',
+          }}
+        >
+          <b style={{ fontSize: unit / 3 }}>
+            {binding.doubleTap.layers?.[layer - 1] ?? binding.doubleTap.tap}
+          </b>
+          {binding.doubleTap.hold && (
+            <span style={{ fontSize: unit / 8 }}>{binding.doubleTap.hold}</span>
+          )}
+        </div>
+      )}
     </div>
   );
 }
