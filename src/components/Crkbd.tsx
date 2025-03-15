@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { CSSProperties, useRef, useState } from 'react';
 import { KeyBinding, KeyLoc } from './Key';
 import { Keymap } from './Keymap';
 import { useEventListener } from './useEventListener';
@@ -311,37 +311,55 @@ const corneNumpad = [
 ];
 
 export function Crkbd() {
-  const [layer, setLayer] = useState(0);
+  const rootElement = useRef<HTMLDivElement>(null);
+  const [activeLayer, setActiveLayer] = useState(0);
+  const [zoom, setZoom] = useState(0.5);
 
   useEventListener('keydown', (e: KeyboardEvent) => {
-    console.log(e.key);
-    if (e.key === 'ArrowDown') setLayer((layer + 1) % 4);
-    if (e.key === 'ArrowUp') setLayer((layer + 3) % 4);
+    if (e.key === 'ArrowDown') setActiveLayer((activeLayer + 1) % 4);
+    if (e.key === 'ArrowUp') setActiveLayer((activeLayer + 3) % 4);
   });
 
   const zoomFactor = 0.5;
-  const keymapStyle = (isActive: boolean) => ({
-    margin: '16px 0',
-    height: `${320 * (isActive ? 1 : zoomFactor)}px`,
+  const keymapStyle = (layer: number): CSSProperties => ({
+    height: 320,
+    margin: `calc(-160px * (1 - ${activeLayer === layer ? 1 : zoomFactor})) 0`,
     padding: '0 540px',
-    transform: `scale(${isActive ? 1 : zoomFactor})`,
+    transform: `scale(${activeLayer === layer ? 1 : zoomFactor})`,
     transition: 'all 0.33s',
+    overflowY: 'visible',
+  });
+
+  useEventListener('resize', () => {
+    if (rootElement.current) {
+      console.log(rootElement.current.clientWidth);
+      const zoomX = window.innerWidth / rootElement.current.clientWidth;
+      const zoomY = window.innerHeight / rootElement.current.clientHeight;
+      setZoom(Math.min(zoomX, zoomY));
+    }
   });
 
   return (
     <div
-      style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '16px',
+        zoom,
+      }}
+      ref={rootElement}
     >
-      <div style={keymapStyle(layer == 0)}>
+      <div style={keymapStyle(0)}>
         <Keymap matrix={corneMatrix} keys={corneBase} />
       </div>
-      <div style={keymapStyle(layer == 1)}>
+      <div style={keymapStyle(1)}>
         <Keymap matrix={corneMatrix} keys={corneArrows} />
       </div>
-      <div style={keymapStyle(layer == 2)}>
+      <div style={keymapStyle(2)}>
         <Keymap matrix={corneMatrix} keys={corneNumfn} />
       </div>
-      <div style={keymapStyle(layer == 3)}>
+      <div style={keymapStyle(3)}>
         <Keymap matrix={corneMatrix} keys={corneNumpad} />
       </div>
     </div>
