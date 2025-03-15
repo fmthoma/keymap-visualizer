@@ -53,10 +53,10 @@ export function Key({ loc, binding, mods }: KeyProps) {
 
   const pressed =
     binding.pressed ||
-    (loc.finger == 'Thumb' &&
+    (loc.finger === 'Thumb' &&
       tapLabel &&
       mods.includes(tapLabel as Modifier)) ||
-    (loc.finger == 'Thumb' &&
+    (loc.finger === 'Thumb' &&
       binding.hold &&
       mods.includes(binding.hold as Modifier));
   const holdLabel = layer === 1 || pressed ? binding.hold : undefined;

@@ -38,11 +38,10 @@ const useEventListener = (
   }, [eventName, element]);
 };
 
-export function Keymap(props: KeymapProps) {
+export function Keymap({ matrix, keys: bindings }: KeymapProps) {
   const [modifiers, setModifiers] = useState<Modifier[]>([]);
 
   useEventListener('keydown', (e: KeyboardEvent) => {
-    console.log(e.code, 'down');
     switch (e.code) {
       case 'ShiftLeft':
       case 'ShiftRight':
@@ -56,36 +55,34 @@ export function Keymap(props: KeymapProps) {
       case 'AltRight':
         setModifiers(['Mod4', ...modifiers]);
         break;
+      default:
+        break;
     }
   });
   useEventListener('keyup', (e: KeyboardEvent) => {
-    console.log(e.code, 'up');
     switch (e.code) {
       case 'ShiftLeft':
       case 'ShiftRight':
-        setModifiers(modifiers.filter((mod) => mod != 'Shift'));
+        setModifiers(modifiers.filter((mod) => mod !== 'Shift'));
         break;
       case 'CapsLock':
       case 'Backslash':
-        setModifiers(modifiers.filter((mod) => mod != 'Mod3'));
+        setModifiers(modifiers.filter((mod) => mod !== 'Mod3'));
         break;
       case 'IntlBackslash':
       case 'AltRight':
-        setModifiers(modifiers.filter((mod) => mod != 'Mod4'));
+        setModifiers(modifiers.filter((mod) => mod !== 'Mod4'));
+        break;
+      default:
         break;
     }
   });
 
   const keys = zipWith(
-    props.matrix,
-    props.keys,
+    matrix,
+    bindings,
   )((loc, binding, index) => (
-    <Key
-      loc={loc}
-      binding={binding}
-      mods={modifiers}
-      key={index}
-    />
+    <Key loc={loc} binding={binding} mods={modifiers} key={index} />
   ));
 
   return <div style={{ position: 'relative' }}>{keys}</div>;
