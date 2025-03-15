@@ -44,6 +44,47 @@ const corneMatrix: KeyLoc[] = [
   { x: 5, y: 1 },
   { x: 6, y: 1.25 },
   { x: 7, y: 1.25 },
+
+  { x: -3.5, y: 2.125 },
+  {
+    x: -3 + Math.cos((33.06 / 180) * Math.PI) * Math.sqrt(0.5),
+    y: 2.125 + 0.5 - Math.sin((33.06 / 180) * Math.PI) * Math.sqrt(0.5),
+    phi: (11.94 / 180) * Math.PI,
+  },
+  {
+    x:
+      -3 +
+      Math.cos((11.94 / 180) * Math.PI) +
+      Math.cos((32.43 / 180) * Math.PI) * Math.sqrt(0.8125),
+    y:
+      2.125 +
+      0.5 +
+      Math.sin((11.94 / 180) * Math.PI) -
+      Math.sin((32.43 / 180) * Math.PI) * Math.sqrt(0.8125),
+    phi: ((2 * 11.94) / 180) * Math.PI,
+    w: 1,
+    h: 1.5,
+  },
+  {
+    x:
+      3 -
+      Math.cos((11.94 / 180) * Math.PI) -
+      Math.cos((32.43 / 180) * Math.PI) * Math.sqrt(0.8125),
+    y:
+      2.125 +
+      0.5 +
+      Math.sin((11.94 / 180) * Math.PI) -
+      Math.sin((32.43 / 180) * Math.PI) * Math.sqrt(0.8125),
+    phi: ((-2 * 11.94) / 180) * Math.PI,
+    w: 1,
+    h: 1.5,
+  },
+  {
+    x: 3 - Math.cos((33.06 / 180) * Math.PI) * Math.sqrt(0.5),
+    y: 2.125 + 0.5 - Math.sin((33.06 / 180) * Math.PI) * Math.sqrt(0.5),
+    phi: (-11.94 / 180) * Math.PI,
+  },
+  { x: 3.5, y: 2.125 },
 ];
 
 const corneBase: KeyBinding[] = [
@@ -89,6 +130,13 @@ const corneBase: KeyBinding[] = [
   { layers: ['.', '•', "'", '3', 'ϑ', '↦'] },
   { layers: ['j', 'J', ';', ';', 'θ', 'Θ'] },
   {},
+
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
 ];
 
 const corneArrows: KeyBinding[] = [
@@ -132,6 +180,13 @@ const corneArrows: KeyBinding[] = [
   { tap: '⇟' },
   { tap: '⇞' },
   { tap: '⇲' },
+  {},
+  {},
+
+  {},
+  {},
+  {},
+  {},
   {},
   {},
 ];
