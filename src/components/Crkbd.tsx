@@ -2,54 +2,54 @@ import { KeyBinding, KeyLoc } from './Key';
 import { Keymap } from './Keymap';
 
 const corneMatrix: KeyLoc[] = [
-  { finger: 'Pinky', x: -7, y: -0.75 },
-  { finger: 'Pinky', x: -6, y: -0.75 },
-  { finger: 'Ring', x: -5, y: -1 },
-  { finger: 'Middle', x: -4, y: -1.125 },
-  { finger: 'Index', x: -3, y: -1 },
-  { finger: 'Index', x: -2, y: -0.875 },
-  { finger: 'Index', x: -1, y: -0.375 },
-  { finger: 'Index', x: 1, y: -0.375 },
-  { finger: 'Index', x: 2, y: -0.875 },
-  { finger: 'Index', x: 3, y: -1 },
-  { finger: 'Middle', x: 4, y: -1.125 },
-  { finger: 'Ring', x: 5, y: -1 },
-  { finger: 'Pinky', x: 6, y: -0.75 },
-  { finger: 'Pinky', x: 7, y: -0.75 },
+  { finger: 'Pinky', x: -7, y: 0.875 },
+  { finger: 'Pinky', x: -6, y: 0.875 },
+  { finger: 'Ring', x: -5, y: 0.625 },
+  { finger: 'Middle', x: -4, y: 0.5 },
+  { finger: 'Index', x: -3, y: 0.625 },
+  { finger: 'Index', x: -2, y: 0.75 },
+  { finger: 'Index', x: -1, y: 1.25 },
+  { finger: 'Index', x: 1, y: 1.25 },
+  { finger: 'Index', x: 2, y: 0.75 },
+  { finger: 'Index', x: 3, y: 0.625 },
+  { finger: 'Middle', x: 4, y: 0.5 },
+  { finger: 'Ring', x: 5, y: 0.625 },
+  { finger: 'Pinky', x: 6, y: 0.875 },
+  { finger: 'Pinky', x: 7, y: 0.875 },
 
-  { finger: 'Pinky', x: -7, y: 0.25 },
-  { finger: 'Pinky', x: -6, y: 0.25 },
-  { finger: 'Ring', x: -5, y: 0 },
-  { finger: 'Middle', x: -4, y: -0.125 },
-  { finger: 'Index', x: -3, y: 0 },
-  { finger: 'Index', x: -2, y: 0.125 },
-  { finger: 'Index', x: -1, y: 0.625 },
-  { finger: 'Index', x: 1, y: 0.625 },
-  { finger: 'Index', x: 2, y: 0.125 },
-  { finger: 'Index', x: 3, y: 0 },
-  { finger: 'Middle', x: 4, y: -0.125 },
-  { finger: 'Ring', x: 5, y: 0 },
-  { finger: 'Pinky', x: 6, y: 0.25 },
-  { finger: 'Pinky', x: 7, y: 0.25 },
+  { finger: 'Pinky', x: -7, y: 1.875 },
+  { finger: 'Pinky', x: -6, y: 1.875 },
+  { finger: 'Ring', x: -5, y: 1.625 },
+  { finger: 'Middle', x: -4, y: 1.5 },
+  { finger: 'Index', x: -3, y: 1.625 },
+  { finger: 'Index', x: -2, y: 1.75 },
+  { finger: 'Index', x: -1, y: 2.25 },
+  { finger: 'Index', x: 1, y: 2.25 },
+  { finger: 'Index', x: 2, y: 1.75 },
+  { finger: 'Index', x: 3, y: 1.625 },
+  { finger: 'Middle', x: 4, y: 1.5 },
+  { finger: 'Ring', x: 5, y: 1.625 },
+  { finger: 'Pinky', x: 6, y: 1.875 },
+  { finger: 'Pinky', x: 7, y: 1.875 },
 
-  { finger: 'Pinky', x: -7, y: 1.25 },
-  { finger: 'Pinky', x: -6, y: 1.25 },
-  { finger: 'Ring', x: -5, y: 1 },
-  { finger: 'Middle', x: -4, y: 0.875 },
-  { finger: 'Index', x: -3, y: 1 },
-  { finger: 'Index', x: -2, y: 1.125 },
-  { finger: 'Index', x: 2, y: 1.125 },
-  { finger: 'Index', x: 3, y: 1 },
-  { finger: 'Middle', x: 4, y: 0.875 },
-  { finger: 'Ring', x: 5, y: 1 },
-  { finger: 'Pinky', x: 6, y: 1.25 },
-  { finger: 'Pinky', x: 7, y: 1.25 },
+  { finger: 'Pinky', x: -7, y: 2.875 },
+  { finger: 'Pinky', x: -6, y: 2.875 },
+  { finger: 'Ring', x: -5, y: 2.625 },
+  { finger: 'Middle', x: -4, y: 2.5 },
+  { finger: 'Index', x: -3, y: 2.625 },
+  { finger: 'Index', x: -2, y: 2.75 },
+  { finger: 'Index', x: 2, y: 2.75 },
+  { finger: 'Index', x: 3, y: 2.625 },
+  { finger: 'Middle', x: 4, y: 2.5 },
+  { finger: 'Ring', x: 5, y: 2.625 },
+  { finger: 'Pinky', x: 6, y: 2.875 },
+  { finger: 'Pinky', x: 7, y: 2.875 },
 
-  { finger: 'Thumb', x: -3.5, y: 2.125 },
+  { finger: 'Thumb', x: -3.5, y: 3.75 },
   {
     finger: 'Thumb',
     x: -3 + Math.cos((33.06 / 180) * Math.PI) * Math.sqrt(0.5),
-    y: 2.125 + 0.5 - Math.sin((33.06 / 180) * Math.PI) * Math.sqrt(0.5),
+    y: 3.75 + 0.5 - Math.sin((33.06 / 180) * Math.PI) * Math.sqrt(0.5),
     phi: (11.94 / 180) * Math.PI,
   },
   {
@@ -59,7 +59,7 @@ const corneMatrix: KeyLoc[] = [
       Math.cos((11.94 / 180) * Math.PI) +
       Math.cos((32.43 / 180) * Math.PI) * Math.sqrt(0.8125),
     y:
-      2.125 +
+      3.75 +
       0.5 +
       Math.sin((11.94 / 180) * Math.PI) -
       Math.sin((32.43 / 180) * Math.PI) * Math.sqrt(0.8125),
@@ -74,7 +74,7 @@ const corneMatrix: KeyLoc[] = [
       Math.cos((11.94 / 180) * Math.PI) -
       Math.cos((32.43 / 180) * Math.PI) * Math.sqrt(0.8125),
     y:
-      2.125 +
+      3.75 +
       0.5 +
       Math.sin((11.94 / 180) * Math.PI) -
       Math.sin((32.43 / 180) * Math.PI) * Math.sqrt(0.8125),
@@ -85,10 +85,10 @@ const corneMatrix: KeyLoc[] = [
   {
     finger: 'Thumb',
     x: 3 - Math.cos((33.06 / 180) * Math.PI) * Math.sqrt(0.5),
-    y: 2.125 + 0.5 - Math.sin((33.06 / 180) * Math.PI) * Math.sqrt(0.5),
+    y: 3.75 + 0.5 - Math.sin((33.06 / 180) * Math.PI) * Math.sqrt(0.5),
     phi: (-11.94 / 180) * Math.PI,
   },
-  { finger: 'Thumb', x: 3.5, y: 2.125 },
+  { finger: 'Thumb', x: 3.5, y: 3.75 },
 ];
 
 const corneBase: KeyBinding[] = [
@@ -142,10 +142,7 @@ const corneBase: KeyBinding[] = [
   { tap: 'Shift' },
   { tap: 'Ins', hold: 'Mod4' },
   { tap: 'Esc', hold: 'Mod3' },
-  {
-    layers: ['Space', 'Space', 'Space', '0', 'Space', 'Space'],
-    hold: 'Arrows',
-  },
+  { layers: ['Space', 'Space', 'Space', '0', 'Space', 'Space'], hold: 'Arrows' },
   { tap: 'Num+Fn', doubleTap: { tap: '🎙️' } },
 ];
 
@@ -265,13 +262,13 @@ const corneNumpad = [
   {},
   { tap: '⌦' },
   { tap: '⌫' },
-  { layers: ['⇥', '⇤', '=', '≠', '≈', '≡'] },
+  { layers: ['⇥', '⇤', '=', '≠', '≈', '≡']},
   { layers: ['7', '✔', '↕', '⇱', '≪', '⌈'] },
   { layers: ['8', '✘', '↑', '⇡', '∩', '⋂'] },
   { layers: ['9', '†', '◌⃗', '⇞', '≫', '⌉'] },
   { layers: ['-', '-', '−', '∖', '⊖', '∸'] },
   { layers: ['/', '/', '÷', '⁄', '⌀', '∣'] },
-
+  
   {},
   { tap: 'Gui' },
   { tap: 'Alt' },
@@ -294,11 +291,11 @@ const corneNumpad = [
   {},
   {},
   {},
-  { layers: ['1', '♦', '↔', '⇲', '≤', '⌊'] },
-  { layers: ['2', '♥', '↓', '⇣', '∪', '⋃'] },
+  { layers: ['1', '♦', '↔', '⇲', '≤', '⌊']},
+  { layers: ['2', '♥', '↓', '⇣', '∪', '⋃']},
   { layers: ['3', '♠', '⇌', '⇟', '≥', '⌋'] },
   { layers: ['↵', '↵', '↵', '↵', '↵', '↵'] },
-  { tap: 'Numpad', pressed: true },
+  { tap: "Numpad", pressed: true},
 
   { tap: 'Gui' },
   { tap: 'Shift' },
