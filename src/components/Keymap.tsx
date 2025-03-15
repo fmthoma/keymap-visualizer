@@ -1,5 +1,6 @@
-import { EventHandler, useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { Key, KeyBinding, KeyLoc, Modifier } from './Key';
+import { useEventListener } from './useEventListener';
 
 export type KeymapProps = {
   matrix: KeyLoc[];
@@ -15,28 +16,6 @@ const zipWith =
     }
     return res;
   };
-
-const useEventListener = (
-  eventName: string,
-  handler: (event: any) => void,
-  element = window,
-) => {
-  const savedHandler = useRef<EventHandler<any>>();
-  useEffect(() => {
-    savedHandler.current = handler;
-  }, [handler]);
-  useEffect(() => {
-    const eventListener = (event: any) => {
-      if (savedHandler.current) {
-        savedHandler.current(event);
-      }
-    };
-    element.addEventListener(eventName, eventListener);
-    return () => {
-      element.removeEventListener(eventName, eventListener);
-    };
-  }, [eventName, element]);
-};
 
 export function Keymap({ matrix, keys: bindings }: KeymapProps) {
   const [modifiers, setModifiers] = useState<Modifier[]>([]);

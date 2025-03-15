@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { KeyBinding, KeyLoc } from './Key';
 import { Keymap } from './Keymap';
+import { useEventListener } from './useEventListener';
 
 const corneMatrix: KeyLoc[] = [
   { finger: 'Pinky', x: -7, y: 0.875 },
@@ -142,7 +144,10 @@ const corneBase: KeyBinding[] = [
   { tap: 'Shift' },
   { tap: 'Ins', hold: 'Mod4' },
   { tap: 'Esc', hold: 'Mod3' },
-  { layers: ['Space', 'Space', 'Space', '0', 'Space', 'Space'], hold: 'Arrows' },
+  {
+    layers: ['Space', 'Space', 'Space', '0', 'Space', 'Space'],
+    hold: 'Arrows',
+  },
   { tap: 'Num+Fn', doubleTap: { tap: '🎙️' } },
 ];
 
@@ -262,13 +267,13 @@ const corneNumpad = [
   {},
   { tap: '⌦' },
   { tap: '⌫' },
-  { layers: ['⇥', '⇤', '=', '≠', '≈', '≡']},
+  { layers: ['⇥', '⇤', '=', '≠', '≈', '≡'] },
   { layers: ['7', '✔', '↕', '⇱', '≪', '⌈'] },
   { layers: ['8', '✘', '↑', '⇡', '∩', '⋂'] },
   { layers: ['9', '†', '◌⃗', '⇞', '≫', '⌉'] },
   { layers: ['-', '-', '−', '∖', '⊖', '∸'] },
   { layers: ['/', '/', '÷', '⁄', '⌀', '∣'] },
-  
+
   {},
   { tap: 'Gui' },
   { tap: 'Alt' },
@@ -291,11 +296,11 @@ const corneNumpad = [
   {},
   {},
   {},
-  { layers: ['1', '♦', '↔', '⇲', '≤', '⌊']},
-  { layers: ['2', '♥', '↓', '⇣', '∪', '⋃']},
+  { layers: ['1', '♦', '↔', '⇲', '≤', '⌊'] },
+  { layers: ['2', '♥', '↓', '⇣', '∪', '⋃'] },
   { layers: ['3', '♠', '⇌', '⇟', '≥', '⌋'] },
   { layers: ['↵', '↵', '↵', '↵', '↵', '↵'] },
-  { tap: "Numpad", pressed: true},
+  { tap: 'Numpad', pressed: true },
 
   { tap: 'Gui' },
   { tap: 'Shift' },
@@ -306,18 +311,37 @@ const corneNumpad = [
 ];
 
 export function Crkbd() {
+  const [layer, setLayer] = useState(0);
+
+  useEventListener('keydown', (e: KeyboardEvent) => {
+    console.log(e.key);
+    if (e.key === 'ArrowDown') setLayer((layer + 1) % 4);
+    if (e.key === 'ArrowUp') setLayer((layer + 3) % 4);
+  });
+
+  const zoomFactor = 0.5;
+  const keymapStyle = (isActive: boolean) => ({
+    margin: '16px 0',
+    height: `${320 * (isActive ? 1 : zoomFactor)}px`,
+    padding: '0 540px',
+    transform: `scale(${isActive ? 1 : zoomFactor})`,
+    transition: 'all 0.33s',
+  });
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <div style={{ height: '320px' }}>
+    <div
+      style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+    >
+      <div style={keymapStyle(layer == 0)}>
         <Keymap matrix={corneMatrix} keys={corneBase} />
       </div>
-      <div style={{ height: '320px' }}>
+      <div style={keymapStyle(layer == 1)}>
         <Keymap matrix={corneMatrix} keys={corneArrows} />
       </div>
-      <div style={{ height: '320px' }}>
+      <div style={keymapStyle(layer == 2)}>
         <Keymap matrix={corneMatrix} keys={corneNumfn} />
       </div>
-      <div style={{ height: '320px' }}>
+      <div style={keymapStyle(layer == 3)}>
         <Keymap matrix={corneMatrix} keys={corneNumpad} />
       </div>
     </div>

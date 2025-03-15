@@ -95,23 +95,25 @@ export function Key({ loc, binding, mods }: KeyProps) {
 
   return (
     <div style={{ ...keyStyle, ...(tapLabel ? {} : { opacity: 0.25 }) }}>
-      <button onClick={copyToClipboard(tapLabel)} style={{all: "unset"}}>
-      <div style={keyLabelStyle}>
-        <b style={{ fontSize: unit / 3 }}>{tapLabel}</b>
-        {holdLabel && <span style={{ fontSize: unit / 8 }}>{holdLabel}</span>}
-      </div>
-      </button>
-      {binding.doubleTap && (
-      <button onClick={copyToClipboard(tapLabel)} style={{all: "unset"}}>
-        <div style={keyLabelStyle} onClick={copyToClipboard(doubleTapLabel)}>
-          <b style={{ fontSize: unit / 3 }}>
-            {binding.doubleTap.layers?.[layer - 1] ?? binding.doubleTap.tap}
-          </b>
-          {binding.doubleTap.hold && (
-            <span style={{ fontSize: unit / 8 }}>{binding.doubleTap.hold}</span>
-          )}
+      <button onClick={copyToClipboard(tapLabel)} style={{ all: 'unset' }}>
+        <div style={keyLabelStyle}>
+          <b style={{ fontSize: unit / 3 }}>{tapLabel}</b>
+          {holdLabel && <span style={{ fontSize: unit / 8 }}>{holdLabel}</span>}
         </div>
       </button>
+      {binding.doubleTap && (
+        <button onClick={copyToClipboard(tapLabel)} style={{ all: 'unset' }}>
+          <div style={keyLabelStyle} onClick={copyToClipboard(doubleTapLabel)}>
+            <b style={{ fontSize: unit / 3 }}>
+              {binding.doubleTap.layers?.[layer - 1] ?? binding.doubleTap.tap}
+            </b>
+            {binding.doubleTap.hold && (
+              <span style={{ fontSize: unit / 8 }}>
+                {binding.doubleTap.hold}
+              </span>
+            )}
+          </div>
+        </button>
       )}
     </div>
   );
