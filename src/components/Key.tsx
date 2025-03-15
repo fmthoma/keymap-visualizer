@@ -1,4 +1,4 @@
-import { CSSProperties } from 'react';
+import { CSSProperties, useEffect, useRef } from 'react';
 
 export type Modifier = 'Shift' | 'Mod3' | 'Mod4';
 export type Finger = 'Pinky' | 'Ring' | 'Middle' | 'Index' | 'Thumb';
@@ -35,6 +35,9 @@ const fingerColors: { [K in Finger]: string } = {
 };
 
 export function Key({ loc, binding, mods }: KeyProps) {
+  const keyOutline = useRef<HTMLDivElement>(null);
+  const mainKeyLabel = useRef<HTMLElement>(null);
+
   const layer =
     mods.length === 0
       ? 1
@@ -75,8 +78,9 @@ export function Key({ loc, binding, mods }: KeyProps) {
     borderRadius: 0.1 * unit,
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    alignItems: 'space-evenly',
     backgroundColor: `${fingerColors[loc.finger]}${pressed ? '40' : 'ff'}`,
     rotate: `${loc.phi}rad`,
     color: '#002b36',
@@ -93,11 +97,20 @@ export function Key({ loc, binding, mods }: KeyProps) {
     if (text) navigator.clipboard.writeText(text);
   };
 
+  useEffect(() => {
+    if(keyOutline.current && mainKeyLabel.current) {
+      const availableWidth = keyOutline.current.clientWidth * 0.8;
+      const requiredWidth = mainKeyLabel.current.clientWidth;
+      const factor = availableWidth / requiredWidth;
+      mainKeyLabel.current.style.zoom = `${Math.min(1, factor)}`;
+    }
+  }, [keyOutline, mainKeyLabel]);
+
   return (
-    <div style={{ ...keyStyle, ...(tapLabel ? {} : { opacity: 0.25 }) }}>
+    <div style={{ ...keyStyle, ...(tapLabel ? {} : { opacity: 0.25 }) }} ref={keyOutline}>
       <button onClick={copyToClipboard(tapLabel)} style={{ all: 'unset' }}>
         <div style={keyLabelStyle}>
-          <b style={{ fontSize: unit / 3 }}>{tapLabel}</b>
+          <b style={{ fontSize: unit / 3 }} ref={mainKeyLabel}>{tapLabel}</b>
           {holdLabel && <span style={{ fontSize: unit / 8 }}>{holdLabel}</span>}
         </div>
       </button>
