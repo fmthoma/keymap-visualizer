@@ -51,6 +51,8 @@ export function Key({ loc, binding, mods }: KeyProps) {
                 : 1;
 
   const tapLabel = binding.layers?.[layer - 1] ?? binding.tap;
+  const doubleTapLabel =
+    binding.doubleTap?.layers?.[layer - 1] ?? binding.doubleTap?.tap;
 
   const pressed =
     binding.pressed ||
@@ -79,29 +81,29 @@ export function Key({ loc, binding, mods }: KeyProps) {
     rotate: `${loc.phi}rad`,
     color: '#002b36',
   };
+  const keyLabelStyle: CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    cursor: 'pointer',
+  };
+
+  const copyToClipboard = (text?: string) => () => {
+    if (text) navigator.clipboard.writeText(text);
+  };
 
   return (
     <div style={{ ...keyStyle, ...(tapLabel ? {} : { opacity: 0.25 }) }}>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-around',
-          alignItems: 'center',
-        }}
-      >
+      <button onClick={copyToClipboard(tapLabel)} style={{all: "unset"}}>
+      <div style={keyLabelStyle}>
         <b style={{ fontSize: unit / 3 }}>{tapLabel}</b>
         {holdLabel && <span style={{ fontSize: unit / 8 }}>{holdLabel}</span>}
       </div>
+      </button>
       {binding.doubleTap && (
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-around',
-            alignItems: 'center',
-          }}
-        >
+      <button onClick={copyToClipboard(tapLabel)} style={{all: "unset"}}>
+        <div style={keyLabelStyle} onClick={copyToClipboard(doubleTapLabel)}>
           <b style={{ fontSize: unit / 3 }}>
             {binding.doubleTap.layers?.[layer - 1] ?? binding.doubleTap.tap}
           </b>
@@ -109,6 +111,7 @@ export function Key({ loc, binding, mods }: KeyProps) {
             <span style={{ fontSize: unit / 8 }}>{binding.doubleTap.hold}</span>
           )}
         </div>
+      </button>
       )}
     </div>
   );

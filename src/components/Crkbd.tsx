@@ -142,7 +142,10 @@ const corneBase: KeyBinding[] = [
   { tap: 'Shift' },
   { tap: 'Ins', hold: 'Mod4' },
   { tap: 'Esc', hold: 'Mod3' },
-  { layers: ['Space', 'Space', 'Space', '0', 'Space', 'Space'], hold: 'Arrows' },
+  {
+    layers: ['Space', 'Space', 'Space', '0', 'Space', 'Space'],
+    hold: 'Arrows',
+  },
   { tap: 'Num+Fn', doubleTap: { tap: '🎙️' } },
 ];
 
@@ -262,13 +265,13 @@ const corneNumpad = [
   {},
   { tap: '⌦' },
   { tap: '⌫' },
-  { layers: ['⇥', '⇤', '=', '≠', '≈', '≡']},
+  { layers: ['⇥', '⇤', '=', '≠', '≈', '≡'] },
   { layers: ['7', '✔', '↕', '⇱', '≪', '⌈'] },
   { layers: ['8', '✘', '↑', '⇡', '∩', '⋂'] },
   { layers: ['9', '†', '◌⃗', '⇞', '≫', '⌉'] },
   { layers: ['-', '-', '−', '∖', '⊖', '∸'] },
   { layers: ['/', '/', '÷', '⁄', '⌀', '∣'] },
-  
+
   {},
   { tap: 'Gui' },
   { tap: 'Alt' },
@@ -291,11 +294,11 @@ const corneNumpad = [
   {},
   {},
   {},
-  { layers: ['1', '♦', '↔', '⇲', '≤', '⌊']},
-  { layers: ['2', '♥', '↓', '⇣', '∪', '⋃']},
+  { layers: ['1', '♦', '↔', '⇲', '≤', '⌊'] },
+  { layers: ['2', '♥', '↓', '⇣', '∪', '⋃'] },
   { layers: ['3', '♠', '⇌', '⇟', '≥', '⌋'] },
   { layers: ['↵', '↵', '↵', '↵', '↵', '↵'] },
-  { tap: "Numpad", pressed: true},
+  { tap: 'Numpad', pressed: true },
 
   { tap: 'Gui' },
   { tap: 'Shift' },
