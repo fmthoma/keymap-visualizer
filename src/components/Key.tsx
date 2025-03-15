@@ -13,11 +13,7 @@ export type KeyLoc = {
 export type KeyBinding = {
   tap?: string;
   hold?: string;
-  shifted?: string;
-  layer3?: string;
-  layer4?: string;
-  layer5?: string;
-  layer6?: string;
+  layers?: string[];
 };
 
 export type KeyProps = {
@@ -27,23 +23,37 @@ export type KeyProps = {
   down: boolean;
 };
 
-export function Key(props: KeyProps) {
+export function Key({loc, binding, mods, down}: KeyProps) {
   const unit = 80;
   const keyStyle: CSSProperties = {
     position: 'absolute',
-    left: `${unit * (props.loc.x - 0.5)}px`,
-    top: `${unit * (props.loc.y - 0.5)}px`,
-    width: `${unit * (props.loc.w ?? 1 - 0.1)}px`,
-    height: `${unit * (props.loc.h ?? 1 - 0.1)}px`,
+    left: `${unit * (loc.x - 0.5)}px`,
+    top: `${unit * (loc.y - 0.5)}px`,
+    width: `${unit * (loc.w ?? 1 - 0.1)}px`,
+    height: `${unit * (loc.h ?? 1 - 0.1)}px`,
     border: '1px solid black',
-    borderRadius: 0.1*unit,
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-around",
-    alignItems: "center",
+    borderRadius: 0.1 * unit,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    background: `rgb(255, 255, 255, ${down ? 128 : 0})`,
   };
-  return <div style={keyStyle}>
-    <>{props.binding.shifted}</>
-    <b>{props.binding.tap}</b>
-    </div>;
+
+  const layer = mods.length === 0 ? 1
+    : mods.every(v => v === "Shift") ? 2
+    : mods.every(v => v === "Mod3") ? 3
+    : mods.every(v => v === "Mod4") ? 4
+    : mods.every(v => v === "Shift" || v === "Mod3") ? 5
+    : mods.every(v => v === "Mod3" || v === "Mod4") ? 6
+    : 1
+  const tapLabel = binding.layers?.[layer-1] ?? binding.tap
+  const holdLabel = layer === 1 ? binding.hold : undefined;
+
+  return (
+    <div style={keyStyle}>
+      <b style={{fontSize: unit/3}}>{tapLabel}</b>
+      <span style={{fontSize: unit/8}}>{holdLabel}</span>
+    </div>
+  );
 }
