@@ -1,4 +1,4 @@
-import { CSSProperties, useEffect, useRef } from 'react';
+import { CSSProperties, ReactNode, useEffect, useRef } from 'react';
 import { Tooltip } from 'react-tooltip';
 
 export const unit = 64;
@@ -8,7 +8,7 @@ export type Finger = 'Pinky' | 'Ring' | 'Middle' | 'Index' | 'Thumb';
 
 export type KeyLabel =
   | string
-  | { label: string; char?: string; icon?: string; tooltip?: string };
+  | { label: string; char?: string; icon?: ReactNode; tooltip?: string };
 
 export type KeyLoc = {
   x: number;
@@ -47,7 +47,9 @@ function KeyLabel({ label }: { label?: KeyLabel }) {
   const id = `tooltip-${label.label}-anchor`;
   return (
     <>
-      <a id={id}>{label.label}</a>
+      <a style={{ all: 'unset' }} id={id}>
+        {label.icon ? label.icon : label.label}
+      </a>
       <Tooltip anchorSelect={`#${id}`}>{label.tooltip}</Tooltip>
     </>
   );

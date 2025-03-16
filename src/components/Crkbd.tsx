@@ -1,4 +1,6 @@
 import { CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
+import { PiNumpadFill, PiMicrophoneSlashFill } from 'react-icons/pi';
+import { TbNumbers } from 'react-icons/tb';
 import { KeyBinding, KeyLoc } from './Key';
 import { Combo, Keymap } from './Keymap';
 import { useEventListener } from './useEventListener';
@@ -138,7 +140,7 @@ const corneBase: KeyBinding[] = [
   { layers: [',', '–', '"', '2', 'ϱ', '⇒'] },
   { layers: ['.', '•', "'", '3', 'ϑ', '↦'] },
   { layers: ['j', 'J', ';', ';', 'θ', 'Θ'] },
-  { tap: 'Numpad' },
+  { tap: { label: 'Numpad', icon: <PiNumpadFill /> } },
 
   { tap: 'Gui' },
   { tap: 'Shift' },
@@ -155,7 +157,16 @@ const corneBase: KeyBinding[] = [
     ],
     hold: 'Arrows',
   },
-  { tap: 'Num+Fn', doubleTap: { tap: '🎙️' } },
+  {
+    tap: { label: 'Num+Fn', icon: <TbNumbers /> },
+    doubleTap: {
+      tap: {
+        label: 'Mute',
+        icon: <PiMicrophoneSlashFill />,
+        tooltip: 'Mute/unmute microphone (Gui+M)',
+      },
+    },
+  },
 ];
 
 const corneArrows: KeyBinding[] = [
@@ -209,7 +220,7 @@ const corneArrows: KeyBinding[] = [
   { tap: 'Mod4' },
   { tap: 'Mod3' },
   { tap: 'Space', hold: 'Arrows', pressed: true },
-  { tap: 'Num+Fn' },
+  { tap: { label: 'Num+Fn', icon: <TbNumbers /> } },
 ];
 
 const corneNumfn = [
@@ -264,7 +275,7 @@ const corneNumfn = [
   { tap: 'Mod4' },
   { tap: 'Mod3' },
   { tap: 'Space', hold: 'Arrows' },
-  { tap: 'Num+Fn', pressed: true },
+  { tap: { label: 'Num+Fn', icon: <TbNumbers /> }, pressed: true },
 ];
 
 const corneNumpad = [
@@ -309,14 +320,14 @@ const corneNumpad = [
   { layers: ['2', '♥', '↓', '⇣', '∪', '⋃'] },
   { layers: ['3', '♠', '⇌', '⇟', '≥', '⌋'] },
   { layers: ['↵', '↵', '↵', '↵', '↵', '↵'] },
-  { tap: 'Numpad', pressed: true },
+  { tap: { label: 'Numpad', icon: <PiNumpadFill /> }, pressed: true },
 
   { tap: 'Gui' },
   { tap: 'Shift' },
   { tap: 'Mod4' },
   { tap: 'Mod3' },
   { tap: 'Space', hold: 'Arrows' },
-  { tap: 'Num+Fn' },
+  { tap: { label: 'Num+Fn', icon: <TbNumbers /> } },
 ];
 
 const combos: Combo[] = [
