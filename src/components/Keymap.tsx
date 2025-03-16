@@ -1,5 +1,5 @@
-import { act, useState } from 'react';
-import { Key, KeyBinding, KeyLoc, Modifier } from './Key';
+import { useState } from 'react';
+import { Key, KeyBinding, KeyLoc } from './Key';
 import { useEventListener } from './useEventListener';
 import { Combo } from './Combo';
 

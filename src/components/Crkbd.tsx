@@ -337,7 +337,6 @@ export function Crkbd() {
 
   const handleResize = useCallback(() => {
     if (rootElement.current) {
-      console.log(rootElement.current.clientWidth);
       const zoomX = window.innerWidth / rootElement.current.clientWidth;
       const zoomY = window.innerHeight / rootElement.current.clientHeight;
       setZoom(Math.min(zoomX, zoomY));

@@ -47,9 +47,9 @@ export function Key({ loc, binding, layer }: KeyProps) {
   const pressed =
     binding.pressed ||
     (loc.finger === 'Thumb' &&
-      ((tapLabel == 'Shift' && [2, 5].includes(layer)) ||
-        (tapLabel == 'Mod3' && [3, 5, 6].includes(layer)) ||
-        (tapLabel == 'Mod4' && [4, 6].includes(layer))));
+      ((tapLabel === 'Shift' && [2, 5].includes(layer)) ||
+        (tapLabel === 'Mod3' && [3, 5, 6].includes(layer)) ||
+        (tapLabel === 'Mod4' && [4, 6].includes(layer))));
   const holdLabel = layer === 1 || pressed ? binding.hold : undefined;
 
   const keyStyle: CSSProperties = {
@@ -95,7 +95,11 @@ export function Key({ loc, binding, layer }: KeyProps) {
       style={{ ...keyStyle, ...(tapLabel ? {} : { opacity: 0.25 }) }}
       ref={keyOutline}
     >
-      <button onClick={copyToClipboard(tapLabel)} style={{ all: 'unset' }}>
+      <button
+        type="button"
+        onClick={copyToClipboard(tapLabel)}
+        style={{ all: 'unset' }}
+      >
         <div style={keyLabelStyle}>
           <b style={{ fontSize: unit / 3 }} ref={mainKeyLabel}>
             {tapLabel}
@@ -104,8 +108,12 @@ export function Key({ loc, binding, layer }: KeyProps) {
         </div>
       </button>
       {binding.doubleTap && (
-        <button onClick={copyToClipboard(tapLabel)} style={{ all: 'unset' }}>
-          <div style={keyLabelStyle} onClick={copyToClipboard(doubleTapLabel)}>
+        <button
+          type="button"
+          onClick={copyToClipboard(doubleTapLabel)}
+          style={{ all: 'unset' }}
+        >
+          <div style={keyLabelStyle}>
             <b style={{ fontSize: unit / 3 }}>
               {binding.doubleTap.layers?.[layer - 1] ?? binding.doubleTap.tap}
             </b>
