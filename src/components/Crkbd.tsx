@@ -1,4 +1,4 @@
-import { CSSProperties, useRef, useState } from 'react';
+import { CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
 import { KeyBinding, KeyLoc } from './Key';
 import { Combo, Keymap } from './Keymap';
 import { useEventListener } from './useEventListener';
@@ -335,17 +335,17 @@ export function Crkbd() {
     overflowY: 'visible',
   });
 
-  const handleResize = () => {
+  const handleResize = useCallback(() => {
     if (rootElement.current) {
       console.log(rootElement.current.clientWidth);
       const zoomX = window.innerWidth / rootElement.current.clientWidth;
       const zoomY = window.innerHeight / rootElement.current.clientHeight;
       setZoom(Math.min(zoomX, zoomY));
     }
-  };
+  }, [rootElement]);
 
+  useEffect(() => handleResize(), [handleResize]);
   useEventListener('resize', handleResize);
-  useEventListener('load', handleResize);
 
   return (
     <div
