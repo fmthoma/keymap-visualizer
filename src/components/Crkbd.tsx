@@ -145,7 +145,14 @@ const corneBase: KeyBinding[] = [
   { tap: 'Mod4' },
   { tap: 'Mod3' },
   {
-    layers: ['Space', 'Space', 'Space', '0', 'Space', 'Space'],
+    layers: [
+      { label: 'Space', char: ' ' },
+      { label: 'Space', char: ' ' },
+      { label: 'Space', char: ' ' },
+      '0',
+      { label: 'Nbsp', char: ' ', tooltip: 'Non-breaking space' },
+      { label: 'Nnbsp', char: ' ', tooltip: 'Narrow non-breaking space' },
+    ],
     hold: 'Arrows',
   },
   { tap: 'Num+Fn', doubleTap: { tap: '🎙️' } },
@@ -160,10 +167,12 @@ const corneArrows: KeyBinding[] = [
   {},
   { tap: '⌦' },
   { tap: '⌫' },
-  { tap: 'Alt+Left' },
-  { tap: 'Ctrl+Tab' },
-  { tap: 'Ctrl+ Shift+ Tab' },
-  { tap: 'Alt+Right' },
+  { tap: { label: 'Back', tooltip: 'Backwards in history (Alt+Left)' } },
+  { tap: { label: 'NextTab', tooltip: 'Cycle through tabs (Ctrl+Tab)' } },
+  {
+    tap: { label: 'PrevTab', tooltip: 'Cycle through tabs (Ctrl+ Shift+ Tab)' },
+  },
+  { tap: { label: 'Forward', tooltip: 'Forwards in history (Alt+Right)' } },
   {},
   {},
 

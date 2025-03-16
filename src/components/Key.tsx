@@ -1,9 +1,14 @@
 import { CSSProperties, useEffect, useRef } from 'react';
+import { Tooltip } from 'react-tooltip';
 
 export const unit = 64;
 
 export type Modifier = 'Shift' | 'Mod3' | 'Mod4';
 export type Finger = 'Pinky' | 'Ring' | 'Middle' | 'Index' | 'Thumb';
+
+export type KeyLabel =
+  | string
+  | { label: string; char?: string; icon?: string; tooltip?: string };
 
 export type KeyLoc = {
   x: number;
@@ -15,9 +20,9 @@ export type KeyLoc = {
 };
 
 export type KeyBinding = {
-  tap?: string;
-  hold?: string;
-  layers?: string[];
+  tap?: KeyLabel;
+  hold?: KeyLabel;
+  layers?: KeyLabel[];
   pressed?: boolean;
   doubleTap?: KeyBinding;
 };
@@ -35,6 +40,18 @@ const fingerColors: { [K in Finger]: string } = {
   Index: '#6c71c4',
   Thumb: '#d33682',
 };
+
+function KeyLabel({ label }: { label?: KeyLabel }) {
+  if (!label) return null;
+  if (typeof label === 'string') return label;
+  const id = `tooltip-${label.label}-anchor`;
+  return (
+    <>
+      <a id={id}>{label.label}</a>
+      <Tooltip anchorSelect={`#${id}`}>{label.tooltip}</Tooltip>
+    </>
+  );
+}
 
 export function Key({ loc, binding, layer }: KeyProps) {
   const keyOutline = useRef<HTMLDivElement>(null);
@@ -78,8 +95,10 @@ export function Key({ loc, binding, layer }: KeyProps) {
     cursor: 'pointer',
   };
 
-  const copyToClipboard = (text?: string) => () => {
-    if (text) navigator.clipboard.writeText(text);
+  const copyToClipboard = (text?: KeyLabel) => () => {
+    if (typeof text === 'string') navigator.clipboard.writeText(text);
+    else if (text?.char) navigator.clipboard.writeText(text.char);
+    else if (text?.label) navigator.clipboard.writeText(text.label);
   };
 
   useEffect(() => {
@@ -103,9 +122,13 @@ export function Key({ loc, binding, layer }: KeyProps) {
       >
         <div style={keyLabelStyle}>
           <b style={{ fontSize: unit / 3 }} ref={mainKeyLabel}>
-            {tapLabel}
+            <KeyLabel label={tapLabel} />
           </b>
-          {holdLabel && <span style={{ fontSize: unit / 8 }}>{holdLabel}</span>}
+          {holdLabel && (
+            <span style={{ fontSize: unit / 8 }}>
+              <KeyLabel label={holdLabel} />
+            </span>
+          )}
         </div>
       </button>
       {binding.doubleTap && (
@@ -116,11 +139,15 @@ export function Key({ loc, binding, layer }: KeyProps) {
         >
           <div style={keyLabelStyle}>
             <b style={{ fontSize: unit / 3 }}>
-              {binding.doubleTap.layers?.[layer - 1] ?? binding.doubleTap.tap}
+              <KeyLabel
+                label={
+                  binding.doubleTap.layers?.[layer - 1] ?? binding.doubleTap.tap
+                }
+              />
             </b>
             {binding.doubleTap.hold && (
               <span style={{ fontSize: unit / 8 }}>
-                {binding.doubleTap.hold}
+                <KeyLabel label={binding.doubleTap.hold} />
               </span>
             )}
           </div>
