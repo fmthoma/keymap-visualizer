@@ -28,7 +28,8 @@ const SOCKET_FILE = '/tmp/keymap.sock';
 
 let mainWindow: BrowserWindow | null = null;
 let tray: Tray | null = null;
-let socket: net.Server | null = null;
+
+let keepInBackground: boolean = true;
 
 ipcMain.on('ipc-example', async (event, arg) => {
   const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
@@ -112,8 +113,10 @@ const createWindow = async () => {
   });
 
   mainWindow.on('close', (e) => {
-    e.preventDefault();
-    if (mainWindow && !mainWindow.isDestroyed()) mainWindow.hide();
+    if (keepInBackground) {
+      e.preventDefault();
+      if (mainWindow && !mainWindow.isDestroyed()) mainWindow.hide();
+    }
   });
 
   mainWindow.on('closed', () => {
@@ -121,7 +124,20 @@ const createWindow = async () => {
   });
 
   tray = new Tray(getAssetPath('icon.png'));
-  tray.setToolTip('Hello World');
+  tray.setToolTip('Keymap Visualizer');
+  tray.setContextMenu(
+    Menu.buildFromTemplate([
+      { label: 'Open', click: () => mainWindow?.show() },
+      { type: 'separator' },
+      {
+        label: 'Quit',
+        click: () => {
+          keepInBackground = false;
+          app.quit();
+        },
+      },
+    ]),
+  );
   tray.on('click', () => {
     if (mainWindow && mainWindow.isFocused()) mainWindow.hide();
     else mainWindow?.show();
@@ -139,8 +155,7 @@ const createWindow = async () => {
 app.on('window-all-closed', () => {
   // Respect the OSX convention of having the application in memory even
   // after all windows have been closed
-  if (process.platform !== 'darwin') {
-    // do *not* quit the app – we want to keep it in memory.
+  if (!keepInBackground && process.platform !== 'darwin') {
     app.quit();
   }
 });
@@ -176,7 +191,7 @@ app.on('ready', () => {
     fs.unlinkSync(SOCKET_FILE);
   }
 
-  socket = net
+  net
     .createServer((stream) => {
       stream.on('data', (data) => {
         switch (data.toString()) {
