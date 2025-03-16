@@ -12,8 +12,9 @@ import path from 'path';
 import { app, BrowserWindow, shell, ipcMain, Menu, Tray } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import { resolveHtmlPath } from './util';
 import * as net from 'net';
+import * as fs from 'fs';
+import { resolveHtmlPath } from './util';
 
 class AppUpdater {
   constructor() {
@@ -23,8 +24,11 @@ class AppUpdater {
   }
 }
 
+const SOCKET_FILE = '/tmp/keymap.sock';
+
 let mainWindow: BrowserWindow | null = null;
 let tray: Tray | null = null;
+let socket: net.Server | null = null;
 
 ipcMain.on('ipc-example', async (event, arg) => {
   const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
@@ -117,7 +121,7 @@ const createWindow = async () => {
   });
 
   tray = new Tray(getAssetPath('icon.png'));
-  tray.setToolTip("Hello World");
+  tray.setToolTip('Hello World');
   tray.on('click', () => {
     if (mainWindow && mainWindow.isFocused()) mainWindow.hide();
     else mainWindow?.show();
@@ -137,7 +141,7 @@ app.on('window-all-closed', () => {
   // after all windows have been closed
   if (process.platform !== 'darwin') {
     // do *not* quit the app – we want to keep it in memory.
-    // app.quit();
+    app.quit();
   }
 });
 
@@ -168,34 +172,30 @@ if (!singleInstanceLock) {
 }
 
 app.on('ready', () => {
+  if (fs.existsSync(SOCKET_FILE)) {
+    fs.unlinkSync(SOCKET_FILE);
+  }
 
-net
-.createServer((stream) => {
-  console.log(stream);
-  stream.on('end', () => console.log('stream.on(end)'));
-  stream.on('data', (data) => {
-    console.log("data", data.toString());
-    setTimeout(()=>client.write("ping"), 1000);
-    //stream.write("ping");
-  });
-})
-.listen('/home/thomaf/projects/keymap/keymap.sock', () => {
-  console.log('listener listening');
-})
-.on('connection', (socket)=> {
-  console.log('socket connected');
-  socket.write("init server")
+  socket = net
+    .createServer((stream) => {
+      stream.on('data', (data) => {
+        switch (data.toString()) {
+          case 'restore':
+            if (mainWindow) mainWindow.show();
+            else createWindow();
+            break;
+          case 'hide':
+            mainWindow?.hide();
+            break;
+          case 'toggle':
+            if (mainWindow && mainWindow.isFocused()) mainWindow.hide();
+            else mainWindow?.show();
+            break;
+          default:
+            console.log(`Unknown message: "${data.toString()}`);
+            break;
+        }
+      });
+    })
+    .listen(SOCKET_FILE);
 });
-
-const client = net.createConnection('/home/thomaf/projects/keymap/keymap.sock')
-.on('connect', () => {
-  console.log('client connected');
-  client.write("init client")
-})
-.on('data', (data) => {
-  console.log(data.toString())
-  //setTimeout(() => client.write("pong"), 1000);
-})
-
-
-})
