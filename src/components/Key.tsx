@@ -25,7 +25,7 @@ export type KeyBinding = {
 export type KeyProps = {
   loc: KeyLoc;
   binding: KeyBinding;
-  mods: Modifier[];
+  layer: number;
 };
 
 const fingerColors: { [K in Finger]: string } = {
@@ -36,24 +36,9 @@ const fingerColors: { [K in Finger]: string } = {
   Thumb: '#d33682',
 };
 
-export function Key({ loc, binding, mods }: KeyProps) {
+export function Key({ loc, binding, layer }: KeyProps) {
   const keyOutline = useRef<HTMLDivElement>(null);
   const mainKeyLabel = useRef<HTMLElement>(null);
-
-  const layer =
-    mods.length === 0
-      ? 1
-      : mods.every((v) => v === 'Shift')
-        ? 2
-        : mods.every((v) => v === 'Mod3')
-          ? 3
-          : mods.every((v) => v === 'Mod4')
-            ? 4
-            : mods.every((v) => v === 'Shift' || v === 'Mod3')
-              ? 5
-              : mods.every((v) => v === 'Mod3' || v === 'Mod4')
-                ? 6
-                : 1;
 
   const tapLabel = binding.layers?.[layer - 1] ?? binding.tap;
   const doubleTapLabel =
@@ -62,11 +47,9 @@ export function Key({ loc, binding, mods }: KeyProps) {
   const pressed =
     binding.pressed ||
     (loc.finger === 'Thumb' &&
-      tapLabel &&
-      mods.includes(tapLabel as Modifier)) ||
-    (loc.finger === 'Thumb' &&
-      binding.hold &&
-      mods.includes(binding.hold as Modifier));
+      ((tapLabel == 'Shift' && [2, 5].includes(layer)) ||
+        (tapLabel == 'Mod3' && [3, 5, 6].includes(layer)) ||
+        (tapLabel == 'Mod4' && [4, 6].includes(layer))));
   const holdLabel = layer === 1 || pressed ? binding.hold : undefined;
 
   const keyStyle: CSSProperties = {

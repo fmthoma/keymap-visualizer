@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { act, useState } from 'react';
 import { Key, KeyBinding, KeyLoc, Modifier } from './Key';
 import { useEventListener } from './useEventListener';
 import { Combo } from './Combo';
@@ -24,35 +24,85 @@ const zipWith =
     return res;
   };
 
+const toggleShift = (layer: number) => {
+  switch (layer) {
+    case 1:
+      return 2;
+    case 2:
+      return 1;
+    case 3:
+      return 5;
+    case 4:
+      return 2;
+    case 5:
+      return 3;
+    case 6:
+      return 5;
+    default:
+      return 2;
+  }
+};
+
+const toggleMod3 = (layer: number) => {
+  switch (layer) {
+    case 1:
+      return 3;
+    case 2:
+      return 5;
+    case 3:
+      return 1;
+    case 4:
+      return 3;
+    case 5:
+      return 2;
+    case 6:
+      return 5;
+    default:
+      return 3;
+  }
+};
+
+const toggleMod4 = (layer: number) => {
+  switch (layer) {
+    case 1:
+      return 4;
+    case 2:
+      return 4;
+    case 3:
+      return 6;
+    case 4:
+      return 1;
+    case 5:
+      return 6;
+    case 6:
+      return 3;
+    default:
+      return 4;
+  }
+};
+
 export function Keymap({ matrix, keys: bindings, combos }: KeymapProps) {
-  const [modifiers, setModifiers] = useState<Modifier[]>([]);
+  const [activeLayer, setActiveLayer] = useState<number>(1);
 
   useEventListener('keydown', (e: KeyboardEvent) => {
     switch (e.code) {
       case 'ShiftLeft':
       case 'ShiftRight':
-        setModifiers(
-          modifiers.includes('Shift')
-            ? modifiers.filter((m) => m !== 'Shift')
-            : ['Shift', ...modifiers],
-        );
+        setActiveLayer(toggleShift(activeLayer));
         break;
       case 'CapsLock':
       case 'Backslash':
-        setModifiers(
-          modifiers.includes('Mod3')
-            ? modifiers.filter((m) => m !== 'Mod3')
-            : ['Mod3', ...modifiers],
-        );
+        setActiveLayer(toggleMod3(activeLayer));
         break;
       case 'IntlBackslash':
       case 'AltRight':
-        setModifiers(
-          modifiers.includes('Mod4')
-            ? modifiers.filter((m) => m !== 'Mod4')
-            : ['Mod4', ...modifiers],
-        );
+        setActiveLayer(toggleMod4(activeLayer));
         break;
+      case 'ArrowLeft':
+        setActiveLayer(((activeLayer + 4) % 6) + 1);
+        break;
+      case 'ArrowRight':
+        setActiveLayer((activeLayer % 6) + 1);
       default:
         break;
     }
@@ -62,7 +112,7 @@ export function Keymap({ matrix, keys: bindings, combos }: KeymapProps) {
     matrix,
     bindings,
   )((loc, binding, index) => (
-    <Key loc={loc} binding={binding} mods={modifiers} key={index} />
+    <Key loc={loc} binding={binding} layer={activeLayer} key={index} />
   ));
 
   const comboMarkers = (combos ?? []).map((combo) => {
