@@ -13,6 +13,7 @@ import { app, BrowserWindow, shell, ipcMain, Menu, Tray } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { resolveHtmlPath } from './util';
+import * as net from 'net';
 
 class AppUpdater {
   constructor() {
@@ -116,7 +117,7 @@ const createWindow = async () => {
   });
 
   tray = new Tray(getAssetPath('icon.png'));
-  tray.setToolTip('Hello World');
+  tray.setToolTip("Hello World");
   tray.on('click', () => {
     if (mainWindow && mainWindow.isFocused()) mainWindow.hide();
     else mainWindow?.show();
@@ -165,3 +166,36 @@ if (!singleInstanceLock) {
     })
     .catch(console.log);
 }
+
+app.on('ready', () => {
+
+net
+.createServer((stream) => {
+  console.log(stream);
+  stream.on('end', () => console.log('stream.on(end)'));
+  stream.on('data', (data) => {
+    console.log("data", data.toString());
+    setTimeout(()=>client.write("ping"), 1000);
+    //stream.write("ping");
+  });
+})
+.listen('/home/thomaf/projects/keymap/keymap.sock', () => {
+  console.log('listener listening');
+})
+.on('connection', (socket)=> {
+  console.log('socket connected');
+  socket.write("init server")
+});
+
+const client = net.createConnection('/home/thomaf/projects/keymap/keymap.sock')
+.on('connect', () => {
+  console.log('client connected');
+  client.write("init client")
+})
+.on('data', (data) => {
+  console.log(data.toString())
+  //setTimeout(() => client.write("pong"), 1000);
+})
+
+
+})
