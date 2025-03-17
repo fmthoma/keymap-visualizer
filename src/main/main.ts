@@ -70,9 +70,12 @@ const createWindow = async () => {
   const RESOURCES_PATH = app.isPackaged
     ? path.join(process.resourcesPath, 'assets')
     : path.join(__dirname, '../../assets');
+  
+    console.log(`RESOURCES_PATH: ${RESOURCES_PATH}`);
+    console.log(`process.env.RESOURCES_PATH: ${process.env.RESOURCES_PATH}`);
 
   const getAssetPath = (...paths: string[]): string => {
-    return path.join(RESOURCES_PATH, ...paths);
+    return path.join(process.env.RESOURCES_PATH ?? RESOURCES_PATH, ...paths);
   };
 
   mainWindow = new BrowserWindow({

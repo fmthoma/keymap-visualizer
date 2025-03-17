@@ -49,6 +49,7 @@ buildNpmPackage rec {
 
     makeWrapper '${lib.getExe electron}' $out/bin/${pname} \
       --set-default ELECTRON_IS_DEV 0 \
+      --set-default RESOURCES_PATH $out/share/${pname}/assets \
       --add-flags $out/share/${pname}/app.asar \
       --add-flags "\''${NIXOS_OZONE_WL:+\''${WAYLAND_DISPLAY:+--ozone-platform-hint=auto --enable-features=WaylandWindowDecorations --enable-wayland-ime=true}}"
 
