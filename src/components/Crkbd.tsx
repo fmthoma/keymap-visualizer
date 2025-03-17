@@ -326,7 +326,7 @@ const corneNumpad = [
   { tap: 'Shift' },
   { tap: 'Mod4' },
   { tap: 'Mod3' },
-  { tap: 'Space', hold: 'Arrows' },
+  { layers: ['0', '␣', '%', '⎀', '‰', '□'] },
   { tap: { label: 'Num+Fn', icon: <TbNumbers /> } },
 ];
 
