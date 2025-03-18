@@ -115,6 +115,7 @@ export function Key({ loc, binding, layer }: KeyProps) {
   return (
     <div
       style={{ ...keyStyle, ...(tapLabel ? {} : { opacity: 0.25 }) }}
+      className={`hover ${pressed ? 'pulse' : ''}`}
       ref={keyOutline}
     >
       <button
@@ -123,11 +124,11 @@ export function Key({ loc, binding, layer }: KeyProps) {
         style={{ all: 'unset' }}
       >
         <div style={keyLabelStyle}>
-          <b style={{ fontSize: unit / 3 }} ref={mainKeyLabel}>
+          <b style={{ fontSize: unit / 3 }} ref={mainKeyLabel} className='hover'>
             <KeyLabel label={tapLabel} />
           </b>
           {holdLabel && (
-            <span style={{ fontSize: unit / 8 }}>
+            <span style={{ fontSize: unit / 8 }} className='hover'>
               <KeyLabel label={holdLabel} />
             </span>
           )}
@@ -140,7 +141,7 @@ export function Key({ loc, binding, layer }: KeyProps) {
           style={{ all: 'unset' }}
         >
           <div style={keyLabelStyle}>
-            <b style={{ fontSize: unit / 3 }}>
+            <b style={{ fontSize: unit / 3 }} className='hover'>
               <KeyLabel
                 label={
                   binding.doubleTap.layers?.[layer - 1] ?? binding.doubleTap.tap
@@ -148,7 +149,7 @@ export function Key({ loc, binding, layer }: KeyProps) {
               />
             </b>
             {binding.doubleTap.hold && (
-              <span style={{ fontSize: unit / 8 }}>
+              <span style={{ fontSize: unit / 8 }} className='hover'>
                 <KeyLabel label={binding.doubleTap.hold} />
               </span>
             )}
