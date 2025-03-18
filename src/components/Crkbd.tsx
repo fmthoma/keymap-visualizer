@@ -351,7 +351,7 @@ export function Crkbd() {
     margin: `calc(-160px * (1 - ${activeLayer === layer ? 1 : zoomFactor})) 0`,
     padding: '0 540px',
     transform: `scale(${activeLayer === layer ? 1 : zoomFactor})`,
-    transition: 'all 0.33s',
+    transition: 'all 0.33s ease-out',
     overflowY: 'visible',
   });
 
