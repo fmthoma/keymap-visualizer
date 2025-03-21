@@ -372,6 +372,7 @@ export function Crkbd() {
   useEventListener('resize', handleResize);
 
   const takeScreenshot: MouseEventHandler<HTMLDivElement> = (event) => {
+    event.currentTarget.classList.remove('pulse');
     const { x, y, width, height } = event.currentTarget.getBoundingClientRect();
     const rect = {
       x: x * zoom,
@@ -380,6 +381,7 @@ export function Crkbd() {
       height: height * zoom,
     };
     window.electron.takeScreenshot(rect);
+    event.currentTarget.classList.add('pulse');
   };
   const layers: [KeyBinding[], Combo[]?][] = [
     [corneBase, combos],
