@@ -9,7 +9,15 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, shell, ipcMain, Menu, Tray } from 'electron';
+import {
+  app,
+  BrowserWindow,
+  shell,
+  ipcMain,
+  Menu,
+  Tray,
+  clipboard,
+} from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import * as net from 'net';
@@ -151,6 +159,12 @@ const createWindow = async () => {
 /**
  * Add event listeners...
  */
+
+ipcMain.on('screenshot', (_event, rect: Electron.Rectangle) => {
+  mainWindow?.webContents
+    .capturePage(rect)
+    .then((img) => clipboard.writeImage(img, 'clipboard'));
+});
 
 app.on('window-all-closed', () => {
   // Respect the OSX convention of having the application in memory even

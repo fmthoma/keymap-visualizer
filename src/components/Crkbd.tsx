@@ -1,4 +1,11 @@
-import { CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
+import {
+  CSSProperties,
+  MouseEventHandler,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { PiNumpadFill, PiMicrophoneSlashFill } from 'react-icons/pi';
 import { TbNumbers } from 'react-icons/tb';
 import { KeyBinding, KeyLoc } from './Key';
@@ -364,6 +371,23 @@ export function Crkbd() {
   useEffect(() => handleResize(), [handleResize]);
   useEventListener('resize', handleResize);
 
+  const takeScreenshot: MouseEventHandler<HTMLDivElement> = (event) => {
+    const { x, y, width, height } = event.currentTarget.getBoundingClientRect();
+    const rect = {
+      x: x * zoom,
+      y: y * zoom,
+      width: width * zoom,
+      height: height * zoom,
+    };
+    window.electron.takeScreenshot(rect);
+  };
+  const layers: [KeyBinding[], Combo[]?][] = [
+    [corneBase, combos],
+    [corneArrows],
+    [corneNumfn],
+    [corneNumpad],
+  ];
+
   return (
     <div
       style={{
@@ -375,39 +399,18 @@ export function Crkbd() {
       }}
       ref={rootElement}
     >
-      <div style={keymapStyle(0)}>
-        <Keymap
-          matrix={corneMatrix}
-          keys={corneBase}
-          combos={combos}
-          width="1080px"
-          height="320px"
-        />
-      </div>
-      <div style={keymapStyle(1)}>
-        <Keymap
-          matrix={corneMatrix}
-          keys={corneArrows}
-          width="1080px"
-          height="320px"
-        />
-      </div>
-      <div style={keymapStyle(2)}>
-        <Keymap
-          matrix={corneMatrix}
-          keys={corneNumfn}
-          width="1080px"
-          height="320px"
-        />
-      </div>
-      <div style={keymapStyle(3)}>
-        <Keymap
-          matrix={corneMatrix}
-          keys={corneNumpad}
-          width="1080px"
-          height="320px"
-        />
-      </div>
+      {layers.map(([bindings, combos], layer) => (
+        <div style={keymapStyle(layer)} key={layer}>
+          <Keymap
+            matrix={corneMatrix}
+            keys={bindings}
+            combos={combos}
+            width="1080px"
+            height="320px"
+            onClick={takeScreenshot}
+          />
+        </div>
+      ))}
     </div>
   );
 }

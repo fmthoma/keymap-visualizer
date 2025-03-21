@@ -1,4 +1,4 @@
-import { CSSProperties, useState } from 'react';
+import { CSSProperties, MouseEventHandler, useRef, useState } from 'react';
 import { Key, KeyBinding, KeyLoc } from './Key';
 import { useEventListener } from './useEventListener';
 import { Combo } from './Combo';
@@ -14,6 +14,7 @@ export type KeymapProps = {
   combos?: Combo[];
   width: CSSProperties['width'];
   height: CSSProperties['height'];
+  onClick?: MouseEventHandler<HTMLDivElement>;
 };
 
 const zipWith =
@@ -89,6 +90,7 @@ export function Keymap({
   combos,
   width,
   height,
+  onClick,
 }: KeymapProps) {
   const [activeLayer, setActiveLayer] = useState<number>(1);
 
@@ -143,7 +145,10 @@ export function Keymap({
   });
 
   return (
-    <div style={{ position: 'relative', overflow: 'hidden', width, height }}>
+    <div
+      style={{ position: 'relative', overflow: 'hidden', width, height }}
+      onClick={onClick}
+    >
       <div style={{ transform: 'translate(50%, 0)' }}>
         {keys}
         {comboMarkers}
