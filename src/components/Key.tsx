@@ -1,4 +1,10 @@
-import { CSSProperties, ReactNode, useEffect, useRef } from 'react';
+import {
+  CSSProperties,
+  MouseEventHandler,
+  ReactNode,
+  useEffect,
+  useRef,
+} from 'react';
 import { Tooltip } from 'react-tooltip';
 
 export const unit = 64;
@@ -97,11 +103,25 @@ export function Key({ loc, binding, layer }: KeyProps) {
     cursor: 'pointer',
   };
 
-  const copyToClipboard = (text?: KeyLabel) => () => {
-    if (typeof text === 'string') navigator.clipboard.writeText(text);
-    else if (text?.char) navigator.clipboard.writeText(text.char);
-    else if (text?.label) navigator.clipboard.writeText(text.label);
+  const labelText = (text?: KeyLabel) => {
+    if (typeof text === 'string') return text;
+    if (text?.char) return text.char;
+    if (text?.label) return text.label;
   };
+
+  const copyToClipboard =
+    (text?: KeyLabel): MouseEventHandler =>
+    (event) => {
+      event.stopPropagation();
+      const textToCopy = labelText(text);
+      if (!textToCopy) return;
+      const buttonElement = event.currentTarget.parentElement;
+
+      buttonElement?.classList.remove('pulse');
+      navigator.clipboard
+        .writeText(textToCopy)
+        .then(() => buttonElement?.classList.add('pulse'));
+    };
 
   useEffect(() => {
     if (keyOutline.current && mainKeyLabel.current) {
