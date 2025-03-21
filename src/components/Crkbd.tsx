@@ -376,16 +376,37 @@ export function Crkbd() {
       ref={rootElement}
     >
       <div style={keymapStyle(0)}>
-        <Keymap matrix={corneMatrix} keys={corneBase} combos={combos} width="1080px" height="320px" />
+        <Keymap
+          matrix={corneMatrix}
+          keys={corneBase}
+          combos={combos}
+          width="1080px"
+          height="320px"
+        />
       </div>
       <div style={keymapStyle(1)}>
-        <Keymap matrix={corneMatrix} keys={corneArrows} width="1080px" height="320px" />
+        <Keymap
+          matrix={corneMatrix}
+          keys={corneArrows}
+          width="1080px"
+          height="320px"
+        />
       </div>
       <div style={keymapStyle(2)}>
-        <Keymap matrix={corneMatrix} keys={corneNumfn} width="1080px" height="320px" />
+        <Keymap
+          matrix={corneMatrix}
+          keys={corneNumfn}
+          width="1080px"
+          height="320px"
+        />
       </div>
       <div style={keymapStyle(3)}>
-        <Keymap matrix={corneMatrix} keys={corneNumpad} width="1080px" height="320px" />
+        <Keymap
+          matrix={corneMatrix}
+          keys={corneNumpad}
+          width="1080px"
+          height="320px"
+        />
       </div>
     </div>
   );

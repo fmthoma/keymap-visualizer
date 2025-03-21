@@ -12,8 +12,8 @@ export type KeymapProps = {
   matrix: KeyLoc[];
   keys: KeyBinding[];
   combos?: Combo[];
-  width: CSSProperties['width'],
-  height: CSSProperties['height'],
+  width: CSSProperties['width'];
+  height: CSSProperties['height'];
 };
 
 const zipWith =
@@ -83,7 +83,13 @@ const toggleMod4 = (layer: number) => {
   }
 };
 
-export function Keymap({ matrix, keys: bindings, combos, width, height }: KeymapProps) {
+export function Keymap({
+  matrix,
+  keys: bindings,
+  combos,
+  width,
+  height,
+}: KeymapProps) {
   const [activeLayer, setActiveLayer] = useState<number>(1);
 
   useEventListener('keydown', (e: KeyboardEvent) => {
@@ -138,7 +144,7 @@ export function Keymap({ matrix, keys: bindings, combos, width, height }: Keymap
 
   return (
     <div style={{ position: 'relative', overflow: 'hidden', width, height }}>
-      <div style={{transform: 'translate(50%, 0)'}}>
+      <div style={{ transform: 'translate(50%, 0)' }}>
         {keys}
         {comboMarkers}
       </div>
