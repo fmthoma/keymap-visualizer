@@ -347,9 +347,7 @@ export function Crkbd() {
 
   const zoomFactor = 0.5;
   const keymapStyle = (layer: number): CSSProperties => ({
-    height: 320,
     margin: `calc(-160px * (1 - ${activeLayer === layer ? 1 : zoomFactor})) 0`,
-    padding: '0 540px',
     transform: `scale(${activeLayer === layer ? 1 : zoomFactor})`,
     transition: 'all 0.33s ease-out',
     overflowY: 'visible',
@@ -378,16 +376,16 @@ export function Crkbd() {
       ref={rootElement}
     >
       <div style={keymapStyle(0)}>
-        <Keymap matrix={corneMatrix} keys={corneBase} combos={combos} />
+        <Keymap matrix={corneMatrix} keys={corneBase} combos={combos} width="1080px" height="320px" />
       </div>
       <div style={keymapStyle(1)}>
-        <Keymap matrix={corneMatrix} keys={corneArrows} />
+        <Keymap matrix={corneMatrix} keys={corneArrows} width="1080px" height="320px" />
       </div>
       <div style={keymapStyle(2)}>
-        <Keymap matrix={corneMatrix} keys={corneNumfn} />
+        <Keymap matrix={corneMatrix} keys={corneNumfn} width="1080px" height="320px" />
       </div>
       <div style={keymapStyle(3)}>
-        <Keymap matrix={corneMatrix} keys={corneNumpad} />
+        <Keymap matrix={corneMatrix} keys={corneNumpad} width="1080px" height="320px" />
       </div>
     </div>
   );
