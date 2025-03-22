@@ -164,16 +164,7 @@ const corneBase: KeyBinding[] = [
     ],
     hold: 'Arrows',
   },
-  {
-    tap: { label: 'Num+Fn', icon: <TbNumbers /> },
-    doubleTap: {
-      tap: {
-        label: 'Mute',
-        icon: <PiMicrophoneSlashFill />,
-        tooltip: 'Mute/unmute microphone (Gui+M)',
-      },
-    },
-  },
+  { tap: { label: 'Num+Fn', icon: <TbNumbers /> } },
 ];
 
 const corneArrows: KeyBinding[] = [
@@ -340,6 +331,14 @@ const corneNumpad = [
 const combos: Combo[] = [
   { keys: ['m', ','], action: 'Esc' },
   { keys: ['ä', 'p'], action: 'Ins' },
+  {
+    keys: ['b', 'm'],
+    action: {
+      label: 'Mute',
+      icon: <PiMicrophoneSlashFill />,
+      tooltip: 'Mute/unmute microphone (Gui+M)',
+    },
+  },
 ];
 
 export function Crkbd() {

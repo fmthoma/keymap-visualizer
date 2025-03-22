@@ -2,10 +2,11 @@ import { CSSProperties, MouseEventHandler, useRef, useState } from 'react';
 import { Key, KeyBinding, KeyLoc } from './Key';
 import { useEventListener } from './useEventListener';
 import { Combo } from './Combo';
+import { KeyLabel } from './KeyLabel';
 
 export type Combo = {
   keys: string[];
-  action: string;
+  action: KeyLabel;
 };
 
 export type KeymapProps = {
@@ -141,7 +142,7 @@ export function Keymap({
       x: locs.map((l) => l.x).reduce((i, j) => i + j) / locs.length,
       y: locs.map((l) => l.y).reduce((i, j) => i + j) / locs.length,
     };
-    return <Combo key={combo.action} action={combo.action} loc={avgLoc} />;
+    return <Combo key={combo.keys.join()} action={combo.action} loc={avgLoc} />;
   });
 
   return (

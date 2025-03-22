@@ -1,14 +1,14 @@
 import { unit } from './Key';
+import { KeyLabel } from './KeyLabel';
 
 export type ComboProps = {
   loc: { x: number; y: number };
-  action: string;
+  action: KeyLabel;
 };
 
 export function Combo({ loc, action }: ComboProps) {
   return (
     <div
-      key={action}
       style={{
         position: 'absolute',
         left: loc.x * unit,
@@ -22,7 +22,7 @@ export function Combo({ loc, action }: ComboProps) {
         boxSizing: 'border-box',
       }}
     >
-      {action}
+      <KeyLabel label={action} />
     </div>
   );
 }

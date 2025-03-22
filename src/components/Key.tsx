@@ -1,20 +1,10 @@
-import {
-  CSSProperties,
-  MouseEventHandler,
-  ReactNode,
-  useEffect,
-  useRef,
-} from 'react';
-import { Tooltip } from 'react-tooltip';
+import { CSSProperties, MouseEventHandler, useEffect, useRef } from 'react';
+import { KeyLabel } from './KeyLabel';
 
 export const unit = 64;
 
 export type Modifier = 'Shift' | 'Mod3' | 'Mod4';
 export type Finger = 'Pinky' | 'Ring' | 'Middle' | 'Index' | 'Thumb';
-
-export type KeyLabel =
-  | string
-  | { label: string; char?: string; icon?: ReactNode; tooltip?: string };
 
 export type KeyLoc = {
   x: number;
@@ -46,20 +36,6 @@ const fingerColors: { [K in Finger]: string } = {
   Index: '#6c71c4',
   Thumb: '#d33682',
 };
-
-function KeyLabel({ label }: { label?: KeyLabel }) {
-  if (!label) return null;
-  if (typeof label === 'string') return label;
-  const id = `tooltip-${label.label}-anchor`;
-  return (
-    <>
-      <a style={{ all: 'unset' }} id={id}>
-        {label.icon ? label.icon : label.label}
-      </a>
-      <Tooltip anchorSelect={`#${id}`}>{label.tooltip}</Tooltip>
-    </>
-  );
-}
 
 export function Key({ loc, binding, layer }: KeyProps) {
   const keyOutline = useRef<HTMLDivElement>(null);
