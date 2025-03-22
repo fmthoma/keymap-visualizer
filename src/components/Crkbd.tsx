@@ -331,14 +331,11 @@ const corneNumpad = [
 const combos: Combo[] = [
   { keys: ['m', ','], action: 'Esc' },
   { keys: ['ä', 'p'], action: 'Ins' },
-  {
-    keys: ['b', 'm'],
-    action: {
-      label: 'Mute',
-      icon: <PiMicrophoneSlashFill />,
-      tooltip: 'Mute/unmute microphone (Gui+M)',
-    },
-  },
+  { keys: ['b', 'm'], action: {
+        label: 'Mute',
+        icon: <PiMicrophoneSlashFill />,
+        tooltip: 'Mute/unmute microphone (Gui+M)',
+}}
 ];
 
 export function Crkbd() {

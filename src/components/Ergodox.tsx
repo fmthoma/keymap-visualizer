@@ -199,6 +199,93 @@ const ergodoxBase: KeyBinding[] = [
   },
 ];
 
+const ergodoxArrows: KeyBinding[] = [
+  { tap: 'F1'},
+  { tap: 'F2'},
+  { tap: 'F3'},
+  { tap: 'F4'},
+  { tap: 'F5'},
+  { tap: 'F6'},
+  { tap: 'Ins' },
+  { tap: 'Esc' },
+  { tap: 'F7'},
+  { tap: 'F8'},
+  { tap: 'F9'},
+  { tap: 'F10' },
+  { tap: 'F11'},
+  { tap: 'F12'},
+
+
+  { tap: 'Cut' },
+  {},
+  {},
+  {},
+  {},
+  {},
+  { tap: '⌦' },
+  { tap: '⌫' },
+  { tap: { label: 'Back', tooltip: 'Backwards in history (Alt+Left)' } },
+  { tap: { label: 'NextTab', tooltip: 'Cycle through tabs (Ctrl+Tab)' } },
+  {
+    tap: { label: 'PrevTab', tooltip: 'Cycle through tabs (Ctrl+ Shift+ Tab)' },
+  },
+  { tap: { label: 'Forward', tooltip: 'Forwards in history (Alt+Right)' } },
+  {},
+  {},
+
+  { tap: 'Copy' },
+  { tap: 'Gui' },
+  { tap: 'Alt' },
+  { tap: 'Shift' },
+  { tap: 'Ctrl' },
+  {},
+  { tap: '⇥' },
+  { tap: '↵' },
+  { tap: '⇠' },
+  { tap: '⇣' },
+  { tap: '⇡' },
+  { tap: '⇢' },
+  {},
+  {},
+
+  { tap: 'Paste' },
+  {},
+  {},
+  {},
+  {},
+  {},
+  { tap: '⇱' },
+  { tap: '⇟' },
+  { tap: '⇞' },
+  { tap: '⇲' },
+  {},
+  {},
+
+  {},
+  {},
+  {},
+  {},
+  { tap: 'Gui' },
+  { tap: { label: 'Num+Fn', icon: <TbNumbers /> } },
+  {},
+  {},
+  {},
+  {},
+
+  { tap: 'Shift' },
+  { tap: 'Mod4' },
+  { tap: 'Ctrl' },
+  { tap: 'Alt' },
+  {},
+  {},
+  {},
+  {},
+  {},
+  { tap: 'Ctrl' },
+  { tap: 'Mod3' },
+  { tap: 'Space', hold: 'Arrows', pressed: true },
+];
+
 const combos: Combo[] = [
   { keys: ['m', ','], action: 'Esc' },
   { keys: ['ä', 'p'], action: 'Ins' },
@@ -218,8 +305,8 @@ export function Ergodox() {
   const [zoom, setZoom] = useState(0.5);
 
   useEventListener('keydown', (e: KeyboardEvent) => {
-    if (e.key === 'ArrowDown') setActiveLayer((activeLayer + 1) % 4);
-    if (e.key === 'ArrowUp') setActiveLayer((activeLayer + 3) % 4);
+    if (e.key === 'ArrowDown') setActiveLayer((activeLayer + 1) % 2);
+    if (e.key === 'ArrowUp') setActiveLayer((activeLayer + 1) % 2);
   });
 
   const zoomFactor = 0.5;
@@ -255,6 +342,7 @@ export function Ergodox() {
   };
   const layers: [KeyBinding[], Combo[]?][] = [
     [ergodoxBase, combos],
+    [ergodoxArrows],
   ];
 
   return (
