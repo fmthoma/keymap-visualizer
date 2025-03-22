@@ -1,13 +1,13 @@
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 import icon from '../../assets/icon.svg';
 import './App.css';
-import { Crkbd } from '../components/Crkbd';
+import { Ergodox } from '../components/Ergodox';
 
 export default function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Crkbd />} />
+        <Route path="/" element={<Ergodox />} />
       </Routes>
     </Router>
   );
