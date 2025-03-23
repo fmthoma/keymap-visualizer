@@ -31,7 +31,8 @@ const electronHandler = {
     ipcRenderer.send('switch-keyboard', keyboard);
   },
   onSwitchKeyboard(handler: (keyboard: Keyboard) => void) {
-    const subscription = (_event: IpcRendererEvent, keyboard: Keyboard) => handler(keyboard);
+    const subscription = (_event: IpcRendererEvent, keyboard: Keyboard) =>
+      handler(keyboard);
     ipcRenderer.on('switch-keyboard', subscription);
     return () => {
       ipcRenderer.removeListener('switch-keyboard', subscription);
