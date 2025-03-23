@@ -23,7 +23,6 @@ import log from 'electron-log';
 import * as net from 'net';
 import * as fs from 'fs';
 import { resolveHtmlPath } from './util';
-import { Crkbd } from '../components/Crkbd';
 
 class AppUpdater {
   constructor() {
@@ -34,6 +33,19 @@ class AppUpdater {
 }
 
 const SOCKET_FILE = '/tmp/keymap.sock';
+
+const RESOURCES_PATH = app.isPackaged
+  ? path.join(process.resourcesPath, 'assets')
+  : path.join(__dirname, '../../assets');
+
+const getAssetPath = (...paths: string[]): string => {
+  return path.join(process.env.RESOURCES_PATH ?? RESOURCES_PATH, ...paths);
+};
+
+const icons = {
+  Crkbd: getAssetPath('crkbd.png'),
+  Ergodox: getAssetPath('ergodox.png'),
+} as const;
 
 let mainWindow: BrowserWindow | null = null;
 let tray: Tray | null = null;
@@ -76,19 +88,11 @@ const createWindow = async () => {
     await installExtensions();
   }
 
-  const RESOURCES_PATH = app.isPackaged
-    ? path.join(process.resourcesPath, 'assets')
-    : path.join(__dirname, '../../assets');
-
-  const getAssetPath = (...paths: string[]): string => {
-    return path.join(process.env.RESOURCES_PATH ?? RESOURCES_PATH, ...paths);
-  };
-
   mainWindow = new BrowserWindow({
     show: false,
     width: 1280,
     height: 1024,
-    icon: getAssetPath('icon.png'),
+    icon: icons.Crkbd,
     webPreferences: {
       preload: app.isPackaged
         ? path.join(__dirname, 'preload.js')
@@ -132,13 +136,32 @@ const createWindow = async () => {
     if (mainWindow && !mainWindow.isDestroyed()) mainWindow.hide();
   });
 
-  tray = new Tray(getAssetPath('icon.png'));
+  tray = new Tray(icons.Crkbd);
   tray.setToolTip('Keymap Visualizer');
-  const trayContextMenu = (keyboard: 'Crkbd' | 'Ergodox') => Menu.buildFromTemplate([
+  const trayContextMenu = (keyboard: 'Crkbd' | 'Ergodox') =>
+    Menu.buildFromTemplate([
       { label: 'Open', click: () => mainWindow?.show() },
       { type: 'separator' },
-      { label: 'Crkbd', type: 'radio', checked: keyboard === 'Crkbd', click: () => mainWindow?.webContents.send('switch-keyboard', 'Crkbd') },
-      { label: 'Ergodox', type: 'radio', checked: keyboard === 'Ergodox', click: () => mainWindow?.webContents.send('switch-keyboard', 'Ergodox') },
+      {
+        label: 'Crkbd',
+        type: 'radio',
+        checked: keyboard === 'Crkbd',
+        click: () => {
+          mainWindow?.webContents.send('switch-keyboard', 'Crkbd');
+          tray?.setImage(icons.Crkbd);
+          mainWindow?.setIcon(icons.Crkbd);
+        },
+      },
+      {
+        label: 'Ergodox',
+        type: 'radio',
+        checked: keyboard === 'Ergodox',
+        click: () => {
+          mainWindow?.webContents.send('switch-keyboard', 'Ergodox');
+          tray?.setImage(icons.Ergodox);
+          mainWindow?.setIcon(icons.Ergodox);
+        },
+      },
       { type: 'separator' },
       {
         label: 'Quit',
@@ -154,9 +177,15 @@ const createWindow = async () => {
     else mainWindow?.show();
   });
 
-  ipcMain.on('switch-keyboard', (_event, selectedKeyboard) => {
-    tray?.setContextMenu(trayContextMenu(selectedKeyboard));
-  });
+  ipcMain.on(
+    'switch-keyboard',
+    (_event, selectedKeyboard: keyof typeof icons) => {
+      if (!Object.keys(icons).includes(selectedKeyboard)) return;
+      tray?.setContextMenu(trayContextMenu(selectedKeyboard));
+      tray?.setImage(icons[selectedKeyboard]);
+      mainWindow?.setIcon(icons[selectedKeyboard]);
+    },
+  );
 
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
