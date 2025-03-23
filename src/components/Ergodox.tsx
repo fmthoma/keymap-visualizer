@@ -12,7 +12,7 @@ import { KeyBinding, KeyLoc } from './Key';
 import { Combo, Keymap } from './Keymap';
 import { useEventListener } from './useEventListener';
 
-const phi = 25/180*Math.PI;
+const phi = (25 / 180) * Math.PI;
 
 const ergodoxMatrix: KeyLoc[] = [
   { finger: 'Pinky', x: -9.25, y: 0.875, w: 1.5 },
@@ -28,11 +28,11 @@ const ergodoxMatrix: KeyLoc[] = [
   { finger: 'Middle', x: 6, y: 0.5 },
   { finger: 'Ring', x: 7, y: 0.625 },
   { finger: 'Pinky', x: 8, y: 0.875 },
-  { finger: 'Pinky', x:  9.25, y: 0.875, w: 1.5 },
+  { finger: 'Pinky', x: 9.25, y: 0.875, w: 1.5 },
 
-  { finger: 'Pinky',  x: - 9.25, y: 1.875, w: 1.5 },
-  { finger: 'Pinky',  x: -8, y: 1.875 },
-  { finger: 'Ring',   x: -7, y: 1.625 },
+  { finger: 'Pinky', x: -9.25, y: 1.875, w: 1.5 },
+  { finger: 'Pinky', x: -8, y: 1.875 },
+  { finger: 'Ring', x: -7, y: 1.625 },
   { finger: 'Middle', x: -6, y: 1.5 },
   { finger: 'Index', x: -5, y: 1.625 },
   { finger: 'Index', x: -4, y: 1.75 },
@@ -43,9 +43,9 @@ const ergodoxMatrix: KeyLoc[] = [
   { finger: 'Middle', x: 6, y: 1.5 },
   { finger: 'Ring', x: 7, y: 1.625 },
   { finger: 'Pinky', x: 8, y: 1.875 },
-  { finger: 'Pinky', x:  9.25, y: 1.875, w: 1.5 },
+  { finger: 'Pinky', x: 9.25, y: 1.875, w: 1.5 },
 
-  { finger: 'Pinky', x: - 9.25, y: 2.875, w: 1.5 },
+  { finger: 'Pinky', x: -9.25, y: 2.875, w: 1.5 },
   { finger: 'Pinky', x: -8, y: 2.875 },
   { finger: 'Ring', x: -7, y: 2.625 },
   { finger: 'Middle', x: -6, y: 2.5 },
@@ -58,7 +58,7 @@ const ergodoxMatrix: KeyLoc[] = [
   { finger: 'Middle', x: 6, y: 2.5 },
   { finger: 'Ring', x: 7, y: 2.625 },
   { finger: 'Pinky', x: 8, y: 2.875 },
-  { finger: 'Pinky', x:  9.25, y: 2.875, w: 1.5 },
+  { finger: 'Pinky', x: 9.25, y: 2.875, w: 1.5 },
 
   { finger: 'Pinky', x: -9.25, y: 3.875, w: 1.5 },
   { finger: 'Pinky', x: -8, y: 3.875 },
@@ -85,17 +85,69 @@ const ergodoxMatrix: KeyLoc[] = [
   { finger: 'Pinky', x: 9, y: 4.875 },
 
   { finger: 'Thumb', x: -3.5, y: 5.5, phi, h: 2 },
-  { finger: 'Thumb', x: -3.5 + Math.cos(phi), y: 5.5+Math.sin(phi), phi, h: 2 },
-  { finger: 'Thumb', x: -3.5 + 2*Math.cos(phi)-0.5*Math.sin(phi), y: 5.5+2*Math.sin(phi)+0.5*Math.cos(phi), phi },
-  { finger: 'Thumb', x: -3.5 + 2*Math.cos(phi)+0.5*Math.sin(phi), y: 5.5+2*Math.sin(phi)-0.5*Math.cos(phi), phi },
-  { finger: 'Thumb', x: -3.5 + 2*Math.cos(phi)+1.5*Math.sin(phi), y: 5.5+2*Math.sin(phi)-1.5*Math.cos(phi), phi },
-  { finger: 'Thumb', x: -3.5 + Math.cos(phi)+1.5*Math.sin(phi), y: 5.5+Math.sin(phi)-1.5*Math.cos(phi), phi },
+  {
+    finger: 'Thumb',
+    x: -3.5 + Math.cos(phi),
+    y: 5.5 + Math.sin(phi),
+    phi,
+    h: 2,
+  },
+  {
+    finger: 'Thumb',
+    x: -3.5 + 2 * Math.cos(phi) - 0.5 * Math.sin(phi),
+    y: 5.5 + 2 * Math.sin(phi) + 0.5 * Math.cos(phi),
+    phi,
+  },
+  {
+    finger: 'Thumb',
+    x: -3.5 + 2 * Math.cos(phi) + 0.5 * Math.sin(phi),
+    y: 5.5 + 2 * Math.sin(phi) - 0.5 * Math.cos(phi),
+    phi,
+  },
+  {
+    finger: 'Thumb',
+    x: -3.5 + 2 * Math.cos(phi) + 1.5 * Math.sin(phi),
+    y: 5.5 + 2 * Math.sin(phi) - 1.5 * Math.cos(phi),
+    phi,
+  },
+  {
+    finger: 'Thumb',
+    x: -3.5 + Math.cos(phi) + 1.5 * Math.sin(phi),
+    y: 5.5 + Math.sin(phi) - 1.5 * Math.cos(phi),
+    phi,
+  },
 
-  { finger: 'Thumb', x: 3.5 - Math.cos(phi)-1.5*Math.sin(phi), y: 5.5+Math.sin(phi)-1.5*Math.cos(phi), phi: -phi },
-  { finger: 'Thumb', x: 3.5 - 2*Math.cos(phi)-1.5*Math.sin(phi), y: 5.5+2*Math.sin(phi)-1.5*Math.cos(phi), phi: -phi },
-  { finger: 'Thumb', x: 3.5 - 2*Math.cos(phi)-0.5*Math.sin(phi), y: 5.5+2*Math.sin(phi)-0.5*Math.cos(phi), phi: -phi },
-  { finger: 'Thumb', x: 3.5 - 2*Math.cos(phi)+0.5*Math.sin(phi), y: 5.5+2*Math.sin(phi)+0.5*Math.cos(phi), phi: -phi },
-  { finger: 'Thumb', x: 3.5 - Math.cos(phi), y: 5.5+Math.sin(phi), phi: -phi, h: 2 },
+  {
+    finger: 'Thumb',
+    x: 3.5 - Math.cos(phi) - 1.5 * Math.sin(phi),
+    y: 5.5 + Math.sin(phi) - 1.5 * Math.cos(phi),
+    phi: -phi,
+  },
+  {
+    finger: 'Thumb',
+    x: 3.5 - 2 * Math.cos(phi) - 1.5 * Math.sin(phi),
+    y: 5.5 + 2 * Math.sin(phi) - 1.5 * Math.cos(phi),
+    phi: -phi,
+  },
+  {
+    finger: 'Thumb',
+    x: 3.5 - 2 * Math.cos(phi) - 0.5 * Math.sin(phi),
+    y: 5.5 + 2 * Math.sin(phi) - 0.5 * Math.cos(phi),
+    phi: -phi,
+  },
+  {
+    finger: 'Thumb',
+    x: 3.5 - 2 * Math.cos(phi) + 0.5 * Math.sin(phi),
+    y: 5.5 + 2 * Math.sin(phi) + 0.5 * Math.cos(phi),
+    phi: -phi,
+  },
+  {
+    finger: 'Thumb',
+    x: 3.5 - Math.cos(phi),
+    y: 5.5 + Math.sin(phi),
+    phi: -phi,
+    h: 2,
+  },
   { finger: 'Thumb', x: 3.5, y: 5.5, phi: -phi, h: 2 },
 ];
 
@@ -200,21 +252,20 @@ const ergodoxBase: KeyBinding[] = [
 ];
 
 const ergodoxArrows: KeyBinding[] = [
-  { tap: 'F1'},
-  { tap: 'F2'},
-  { tap: 'F3'},
-  { tap: 'F4'},
-  { tap: 'F5'},
-  { tap: 'F6'},
+  { tap: 'F1' },
+  { tap: 'F2' },
+  { tap: 'F3' },
+  { tap: 'F4' },
+  { tap: 'F5' },
+  { tap: 'F6' },
   { tap: 'Ins' },
   { tap: 'Esc' },
-  { tap: 'F7'},
-  { tap: 'F8'},
-  { tap: 'F9'},
+  { tap: 'F7' },
+  { tap: 'F8' },
+  { tap: 'F9' },
   { tap: 'F10' },
-  { tap: 'F11'},
-  { tap: 'F12'},
-
+  { tap: 'F11' },
+  { tap: 'F12' },
 
   { tap: 'Cut' },
   {},
