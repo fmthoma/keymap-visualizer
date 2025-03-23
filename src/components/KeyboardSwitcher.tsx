@@ -17,10 +17,14 @@ export const KeyboardSwitcher = () => {
   useEventListener('keydown', (e: KeyboardEvent) => {
     if (e.code !== 'Tab') return;
     if (!e.ctrlKey || e.altKey || e.metaKey) return;
-    if (!e.shiftKey) {
-      setKeyboard(availableKeyboards[(availableKeyboards.indexOf(keyboard) + 1) % availableKeyboards.length]);
+    if (e.shiftKey) {
+      const previousKeyboard = availableKeyboards[(availableKeyboards.indexOf(keyboard) + (availableKeyboards.length - 1)) % availableKeyboards.length];
+      setKeyboard(previousKeyboard);
+      window.electron.switchKeyboard(previousKeyboard);
     } else {
-      setKeyboard(availableKeyboards[(availableKeyboards.indexOf(keyboard) + (availableKeyboards.length - 1)) % availableKeyboards.length]);
+      const nextKeyboard = availableKeyboards[(availableKeyboards.indexOf(keyboard) + 1) % availableKeyboards.length];
+      setKeyboard(nextKeyboard);
+      window.electron.switchKeyboard(nextKeyboard);
     }
   });
 

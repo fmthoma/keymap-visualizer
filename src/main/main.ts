@@ -23,6 +23,7 @@ import log from 'electron-log';
 import * as net from 'net';
 import * as fs from 'fs';
 import { resolveHtmlPath } from './util';
+import { Crkbd } from '../components/Crkbd';
 
 class AppUpdater {
   constructor() {
@@ -133,11 +134,11 @@ const createWindow = async () => {
 
   tray = new Tray(getAssetPath('icon.png'));
   tray.setToolTip('Keymap Visualizer');
-  const trayContextMenu = Menu.buildFromTemplate([
+  const trayContextMenu = (keyboard: 'Crkbd' | 'Ergodox') => Menu.buildFromTemplate([
       { label: 'Open', click: () => mainWindow?.show() },
       { type: 'separator' },
-      { label: 'Crkbd', type: 'radio', click: () => mainWindow?.webContents.send('switch-keyboard', 'Crkbd') },
-      { label: 'Ergodox', type: 'radio', click: () => mainWindow?.webContents.send('switch-keyboard', 'Ergodox') },
+      { label: 'Crkbd', type: 'radio', checked: keyboard === 'Crkbd', click: () => mainWindow?.webContents.send('switch-keyboard', 'Crkbd') },
+      { label: 'Ergodox', type: 'radio', checked: keyboard === 'Ergodox', click: () => mainWindow?.webContents.send('switch-keyboard', 'Ergodox') },
       { type: 'separator' },
       {
         label: 'Quit',
@@ -147,10 +148,14 @@ const createWindow = async () => {
         },
       },
     ]);
-  tray.setContextMenu(trayContextMenu);
+  tray.setContextMenu(trayContextMenu('Crkbd'));
   tray.on('click', () => {
     if (mainWindow && mainWindow.isFocused()) mainWindow.hide();
     else mainWindow?.show();
+  });
+
+  ipcMain.on('switch-keyboard', (_event, selectedKeyboard) => {
+    tray?.setContextMenu(trayContextMenu(selectedKeyboard));
   });
 
   // Remove this if your app does not use auto updates
