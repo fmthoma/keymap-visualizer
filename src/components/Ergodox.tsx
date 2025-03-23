@@ -533,7 +533,7 @@ export function Ergodox() {
 
   const zoomFactor = 0.5;
   const keymapStyle = (layer: number): CSSProperties => ({
-    margin: `calc(-160px * (1 - ${activeLayer === layer ? 1 : zoomFactor})) 0`,
+    margin: `calc(-240px * (1 - ${activeLayer === layer ? 1 : zoomFactor})) 0`,
     transform: `scale(${activeLayer === layer ? 1 : zoomFactor})`,
     transition: 'all 0.33s ease-out',
     overflowY: 'visible',
