@@ -133,9 +133,11 @@ const createWindow = async () => {
 
   tray = new Tray(getAssetPath('icon.png'));
   tray.setToolTip('Keymap Visualizer');
-  tray.setContextMenu(
-    Menu.buildFromTemplate([
+  const trayContextMenu = Menu.buildFromTemplate([
       { label: 'Open', click: () => mainWindow?.show() },
+      { type: 'separator' },
+      { label: 'Crkbd', type: 'radio', click: () => mainWindow?.webContents.send('switch-keyboard', 'Crkbd') },
+      { label: 'Ergodox', type: 'radio', click: () => mainWindow?.webContents.send('switch-keyboard', 'Ergodox') },
       { type: 'separator' },
       {
         label: 'Quit',
@@ -144,8 +146,8 @@ const createWindow = async () => {
           app.quit();
         },
       },
-    ]),
-  );
+    ]);
+  tray.setContextMenu(trayContextMenu);
   tray.on('click', () => {
     if (mainWindow && mainWindow.isFocused()) mainWindow.hide();
     else mainWindow?.show();

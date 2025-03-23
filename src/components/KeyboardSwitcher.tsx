@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useEventListener } from "./useEventListener";
 import { Ergodox } from "./Ergodox";
 import { Crkbd } from "./Crkbd";
@@ -9,6 +9,10 @@ const availableKeyboards: Keyboard[] = ['Crkbd', 'Ergodox']
 
 export const KeyboardSwitcher = () => {
   const [keyboard, setKeyboard] = useState<Keyboard>(availableKeyboards[0]);
+
+  useEffect(() => {
+    window.electron.onSwitchKeyboard(setKeyboard);
+  }, []);
 
   useEventListener('keydown', (e: KeyboardEvent) => {
     if (e.code !== 'Tab') return;

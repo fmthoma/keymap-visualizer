@@ -2,7 +2,9 @@
 /* eslint no-unused-vars: off */
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 
-export type Channels = 'screenshot' | 'ipc-example';
+export type Channels = 'screenshot' | 'switch-keyboard' | 'ipc-example';
+
+export type Keyboard = 'Crkbd' | 'Ergodox';
 
 const electronHandler = {
   ipcRenderer: {
@@ -24,6 +26,16 @@ const electronHandler = {
   },
   takeScreenshot(rect: Electron.Rectangle) {
     ipcRenderer.send('screenshot', rect);
+  },
+  switchKeyboard(keyboard: Keyboard) {
+    ipcRenderer.send('switch-keyboard', keyboard);
+  },
+  onSwitchKeyboard(handler: (keyboard: Keyboard) => void) {
+    const subscription = (_event: IpcRendererEvent, keyboard: Keyboard) => handler(keyboard);
+    ipcRenderer.on('switch-keyboard', subscription);
+    return () => {
+      ipcRenderer.removeListener('switch-keyboard', subscription);
+    };
   },
 };
 
