@@ -18,19 +18,9 @@ import {
   Tray,
   clipboard,
 } from 'electron';
-import { autoUpdater } from 'electron-updater';
-import log from 'electron-log';
 import * as net from 'net';
 import * as fs from 'fs';
 import { resolveHtmlPath } from './util';
-
-class AppUpdater {
-  constructor() {
-    log.transports.file.level = 'info';
-    autoUpdater.logger = log;
-    autoUpdater.checkForUpdatesAndNotify();
-  }
-}
 
 const SOCKET_FILE = '/tmp/keymap.sock';
 
@@ -186,10 +176,6 @@ const createWindow = async () => {
       mainWindow?.setIcon(icons[selectedKeyboard]);
     },
   );
-
-  // Remove this if your app does not use auto updates
-  // eslint-disable-next-line
-  new AppUpdater();
 };
 
 /**
