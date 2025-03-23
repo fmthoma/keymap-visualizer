@@ -22,11 +22,13 @@ import * as net from 'net';
 import * as fs from 'fs';
 import { resolveHtmlPath } from './util';
 
+const isDevUnpackaged = !app.isPackaged && __dirname.includes(".erb/dll");
+
 const SOCKET_FILE = '/tmp/keymap.sock';
 
-const RESOURCES_PATH = app.isPackaged
-  ? path.join(process.resourcesPath, 'assets')
-  : path.join(__dirname, '../../assets');
+const RESOURCES_PATH = isDevUnpackaged
+  ? path.join(__dirname, '../../assets')
+  : path.join(process.resourcesPath, 'assets');
 
 const getAssetPath = (...paths: string[]): string => {
   return path.join(process.env.RESOURCES_PATH ?? RESOURCES_PATH, ...paths);
@@ -84,9 +86,9 @@ const createWindow = async () => {
     height: 1024,
     icon: icons.Crkbd,
     webPreferences: {
-      preload: app.isPackaged
-        ? path.join(__dirname, 'preload.js')
-        : path.join(__dirname, '../../.erb/dll/preload.js'),
+      preload: isDevUnpackaged
+        ? path.join(__dirname, '../../.erb/dll/preload.js')
+        : path.join(__dirname, 'preload.js'),
     },
   });
 
