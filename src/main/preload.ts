@@ -8,7 +8,7 @@ import {
 } from 'electron';
 import { Keyboard } from '../types';
 
-export type Channels = 'screenshot' | 'switch-keyboard';
+export type Channels = 'screenshot' | 'switch-keyboard' | 'hide-window';
 
 const electronHandler = {
   ipcRenderer: {
@@ -41,6 +41,9 @@ const electronHandler = {
     return () => {
       ipcRenderer.removeListener('switch-keyboard', subscription);
     };
+  },
+  hideWindow() {
+    ipcRenderer.send('hide-window');
   },
 };
 
