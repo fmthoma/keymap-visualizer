@@ -1,3 +1,4 @@
+/* eslint global-require: off, no-console: off */
 import path from 'path';
 import { BrowserWindow, shell, Menu } from 'electron';
 import { resolveHtmlPath } from './util';
@@ -104,12 +105,8 @@ export function hideWindow() {
 
 export function toggleWindow() {
   if (mainWindow && mainWindow.isFocused()) {
-    mainWindow.hide();
+    hideWindow();
   } else {
-    mainWindow?.show();
+    showWindow();
   }
-}
-
-export function destroyWindow() {
-  mainWindow = null;
 }
