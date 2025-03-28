@@ -8,26 +8,20 @@
  * When running `npm run build` or `npm run build:main`, this file is compiled to
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
-import path from 'path';
 import {
   app,
-  BrowserWindow,
-  shell,
   ipcMain,
-  Menu,
   clipboard,
   Rectangle,
 } from 'electron';
 import * as net from 'net';
 import * as fs from 'fs';
-import { resolveHtmlPath } from './util';
-import { initializeTray, handleKeyboardSwitch } from './tray';
+import { createWindow, showWindow, hideWindow, toggleWindow, getMainWindow } from './window';
+import { handleKeyboardSwitch } from './tray';
 import { icons } from './resources';
 
 const SOCKET_FILE = '/tmp/keymap.sock';
-const isDevUnpackaged = !app.isPackaged && __dirname.includes('.erb/dll');
 
-let mainWindow: BrowserWindow | null = null;
 let socketServer: net.Server | null = null;
 
 let keepInBackground: boolean = true;
@@ -50,101 +44,6 @@ if (isDebug) {
   require('electron-debug')();
 }
 
-const installExtensions = async () => {
-  const installer = require('electron-devtools-installer');
-  const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
-  const extensions = ['REACT_DEVELOPER_TOOLS'];
-
-  return installer
-    .default(
-      extensions.map((name) => installer[name]),
-      forceDownload,
-    )
-    .catch(console.log);
-};
-
-const createWindow = async () => {
-  if (isDebug) {
-    await installExtensions();
-  }
-
-  mainWindow = new BrowserWindow({
-    show: false,
-    width: 1280,
-    height: 1024,
-    icon: icons.Crkbd,
-    webPreferences: {
-      preload: isDevUnpackaged
-        ? path.join(__dirname, '../../.erb/dll/preload.js')
-        : path.join(__dirname, 'preload.js'),
-    },
-  });
-
-  mainWindow.loadURL(resolveHtmlPath('index.html'));
-
-  mainWindow.on('ready-to-show', () => {
-    if (!mainWindow) {
-      throw new Error('"mainWindow" is not defined');
-    }
-    if (process.env.START_MINIMIZED) {
-      mainWindow.minimize();
-    } else {
-      mainWindow.show();
-    }
-  });
-
-  mainWindow.on('closed', () => {
-    mainWindow = null;
-  });
-
-  Menu.setApplicationMenu(null);
-
-  // Open urls in the user's browser
-  mainWindow.webContents.setWindowOpenHandler((edata) => {
-    shell.openExternal(edata.url);
-    return { action: 'deny' };
-  });
-
-  mainWindow.on('close', (e) => {
-    if (keepInBackground) {
-      e.preventDefault();
-      if (mainWindow && !mainWindow.isDestroyed()) mainWindow.hide();
-    }
-  });
-
-  mainWindow.on('closed', () => {
-    if (mainWindow && !mainWindow.isDestroyed()) mainWindow.hide();
-  });
-
-  // Initialize tray
-  initializeTray(mainWindow);
-
-  // Handle quit application event from tray
-  ipcMain.on('quit-application', () => {
-    keepInBackground = false;
-    app.quit();
-  });
-
-  ipcMain.on(
-    'switch-keyboard',
-    (_event, selectedKeyboard: keyof typeof icons) => {
-      if (mainWindow) {
-        handleKeyboardSwitch(mainWindow, selectedKeyboard);
-      }
-    },
-  );
-};
-
-/**
- * Add event listeners...
- */
-
-ipcMain.on('screenshot', (_event, rect: Rectangle) => {
-  mainWindow?.webContents
-    .capturePage(rect)
-    .then((img) => clipboard.writeImage(img, 'clipboard'));
-});
-
 app.on('window-all-closed', () => {
   // Respect the OSX convention of having the application in memory even
   // after all windows have been closed
@@ -160,20 +59,14 @@ if (!singleInstanceLock) {
 } else {
   app.on('second-instance', () => {
     // Someone tried to run a second instance, we should focus our window.
-    if (mainWindow) {
-      if (mainWindow.isMinimized()) mainWindow.restore();
-      mainWindow.show();
-    } else {
-      createWindow();
-    }
+    showWindow();
   });
   app
     .whenReady()
     .then(() => {
-      createWindow();
+      createWindow(keepInBackground).catch(console.log);
       app.on('activate', () => {
-        if (mainWindow) mainWindow.show();
-        else createWindow();
+        showWindow();
       });
     })
     .catch(console.log);
@@ -189,15 +82,13 @@ app.on('ready', () => {
       stream.on('data', (data) => {
         switch (data.toString()) {
           case 'restore':
-            if (mainWindow) mainWindow.show();
-            else createWindow();
+            showWindow();
             break;
           case 'hide':
-            mainWindow?.hide();
+            hideWindow();
             break;
           case 'toggle':
-            if (mainWindow && mainWindow.isFocused()) mainWindow.hide();
-            else mainWindow?.show();
+            toggleWindow();
             break;
           default:
             console.log(`Unknown message: "${data.toString()}`);
@@ -217,3 +108,25 @@ app.on('before-quit', () => {
     fs.unlinkSync(SOCKET_FILE);
   }
 });
+
+ipcMain.on('screenshot', (_event, rect: Rectangle) => {
+  const mainWindow = getMainWindow();
+  mainWindow?.webContents
+    .capturePage(rect)
+    .then((img) => clipboard.writeImage(img, 'clipboard'));
+});
+
+ipcMain.on('quit-application', () => {
+  keepInBackground = false;
+  app.quit();
+});
+
+ipcMain.on(
+  'switch-keyboard',
+  (_event, selectedKeyboard: keyof typeof icons) => {
+    const mainWindow = getMainWindow();
+    if (mainWindow) {
+      handleKeyboardSwitch(mainWindow, selectedKeyboard);
+    }
+  },
+);
