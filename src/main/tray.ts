@@ -56,7 +56,7 @@ export function initializeTray(mainWindow: BrowserWindow) {
 
 export function handleKeyboardSwitch(
   mainWindow: BrowserWindow,
-  selectedKeyboard: keyof typeof icons,
+  selectedKeyboard: Keyboard,
 ) {
   if (!Object.keys(icons).includes(selectedKeyboard)) return;
   setupTrayMenu(mainWindow, selectedKeyboard);

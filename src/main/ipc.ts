@@ -8,10 +8,9 @@ import {
   quitApp,
 } from './window';
 import { handleKeyboardSwitch } from './tray';
-import { icons } from './resources';
+import { Keyboard } from '../types';
 
 export function setupIpcHandlers() {
-
   ipcMain.on('screenshot', (_event, rect: Rectangle) => {
     const mainWindow = getMainWindow();
     mainWindow?.webContents
@@ -19,15 +18,12 @@ export function setupIpcHandlers() {
       .then((img) => clipboard.writeImage(img, 'clipboard'));
   });
 
-  ipcMain.on(
-    'switch-keyboard',
-    (_event, selectedKeyboard: keyof typeof icons) => {
-      const mainWindow = getMainWindow();
-      if (mainWindow) {
-        handleKeyboardSwitch(mainWindow, selectedKeyboard);
-      }
-    },
-  );
+  ipcMain.on('switch-keyboard', (_event, selectedKeyboard: Keyboard) => {
+    const mainWindow = getMainWindow();
+    if (mainWindow) {
+      handleKeyboardSwitch(mainWindow, selectedKeyboard);
+    }
+  });
 
   ipcMain.on('show-window', () => {
     showWindow().catch(console.log);

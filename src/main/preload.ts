@@ -1,6 +1,11 @@
 // Disable no-unused-vars, broken for spread args
 /* eslint no-unused-vars: off */
-import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
+import {
+  contextBridge,
+  ipcRenderer,
+  IpcRendererEvent,
+  Rectangle,
+} from 'electron';
 import { Keyboard } from '../types';
 
 export type Channels = 'screenshot' | 'switch-keyboard';
@@ -23,7 +28,7 @@ const electronHandler = {
       ipcRenderer.once(channel, (_event, ...args) => func(...args));
     },
   },
-  takeScreenshot(rect: Electron.Rectangle) {
+  takeScreenshot(rect: Rectangle) {
     ipcRenderer.send('screenshot', rect);
   },
   switchKeyboard(keyboard: Keyboard) {
