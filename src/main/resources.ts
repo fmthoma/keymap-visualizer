@@ -1,5 +1,6 @@
 import path from 'path';
 import { app } from 'electron';
+import { Keyboard } from '../types';
 
 const isDevUnpackaged = !app.isPackaged && __dirname.includes('.erb/dll');
 
@@ -11,7 +12,7 @@ export function getAssetPath(...paths: string[]): string {
   return path.join(process.env.RESOURCES_PATH ?? RESOURCES_PATH, ...paths);
 }
 
-export const icons = {
+export const icons: Record<Keyboard, string> = {
   Crkbd: getAssetPath('crkbd.png'),
   Ergodox: getAssetPath('ergodox.png'),
 } as const;

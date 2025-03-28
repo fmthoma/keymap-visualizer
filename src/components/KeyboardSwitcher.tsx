@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import { useEventListener } from './useEventListener';
 import { Ergodox } from './Ergodox';
 import { Crkbd } from './Crkbd';
-
-type Keyboard = 'Crkbd' | 'Ergodox';
+import { Keyboard } from '../types';
 
 const availableKeyboards: Keyboard[] = ['Crkbd', 'Ergodox'];
 

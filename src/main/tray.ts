@@ -1,12 +1,10 @@
 import { Tray, Menu, BrowserWindow, ipcMain } from 'electron';
 import { icons } from './resources';
+import { Keyboard } from '../types';
 
 let tray: Tray | null = null;
 
-function setupTrayMenu(
-  mainWindow: BrowserWindow,
-  keyboard: keyof typeof icons,
-) {
+function setupTrayMenu(mainWindow: BrowserWindow, keyboard: Keyboard) {
   const trayContextMenu = Menu.buildFromTemplate([
     { label: 'Open', click: () => ipcMain.emit('show-window') },
     { type: 'separator' },
