@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { UnreachableCaseError } from 'ts-essentials';
 import { useEventListener } from './useEventListener';
 import { Ergodox } from './Ergodox';
 import { Crkbd } from './Crkbd';
@@ -35,5 +36,7 @@ export function KeyboardSwitcher() {
       return <Ergodox />;
     case 'Crkbd':
       return <Crkbd />;
+    default:
+      throw new UnreachableCaseError(keyboard);
   }
 }
