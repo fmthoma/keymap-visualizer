@@ -80,10 +80,12 @@ export async function createWindow(keepInBackground: boolean) {
   return mainWindow;
 }
 
-export function showWindow() {
+export async function showWindow(keepInBackground: boolean = true) {
   if (mainWindow) {
     if (mainWindow.isMinimized()) mainWindow.restore();
     mainWindow.show();
+  } else {
+    await createWindow(keepInBackground);
   }
 }
 

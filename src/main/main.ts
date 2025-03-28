@@ -16,7 +16,13 @@ import {
 } from 'electron';
 import * as net from 'net';
 import * as fs from 'fs';
-import { createWindow, showWindow, hideWindow, toggleWindow, getMainWindow } from './window';
+import {
+  createWindow,
+  showWindow,
+  hideWindow,
+  toggleWindow,
+  getMainWindow,
+} from './window';
 import { handleKeyboardSwitch } from './tray';
 import { icons } from './resources';
 
@@ -59,14 +65,14 @@ if (!singleInstanceLock) {
 } else {
   app.on('second-instance', () => {
     // Someone tried to run a second instance, we should focus our window.
-    showWindow();
+    showWindow(keepInBackground).catch(console.log);
   });
   app
     .whenReady()
     .then(() => {
       createWindow(keepInBackground).catch(console.log);
       app.on('activate', () => {
-        showWindow();
+        showWindow(keepInBackground).catch(console.log);
       });
     })
     .catch(console.log);
@@ -82,7 +88,7 @@ app.on('ready', () => {
       stream.on('data', (data) => {
         switch (data.toString()) {
           case 'restore':
-            showWindow();
+            showWindow(keepInBackground).catch(console.log);
             break;
           case 'hide':
             hideWindow();
