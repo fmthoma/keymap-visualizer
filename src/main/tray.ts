@@ -1,6 +1,12 @@
-import { Tray, Menu, BrowserWindow, ipcMain } from 'electron';
+import {
+  Tray,
+  Menu,
+  BrowserWindow,
+  ipcMain,
+  MenuItemConstructorOptions,
+} from 'electron';
 import { icons } from './resources';
-import { Keyboard } from '../types';
+import { Keyboard, keyboards } from '../types';
 
 let tray: Tray | null = null;
 
@@ -8,26 +14,19 @@ function setupTrayMenu(mainWindow: BrowserWindow, keyboard: Keyboard) {
   const trayContextMenu = Menu.buildFromTemplate([
     { label: 'Open', click: () => ipcMain.emit('show-window') },
     { type: 'separator' },
-    {
-      label: 'Crkbd',
-      type: 'radio',
-      checked: keyboard === 'Crkbd',
-      click: () => {
-        mainWindow?.webContents.send('switch-keyboard', 'Crkbd');
-        tray?.setImage(icons.Crkbd);
-        mainWindow?.setIcon(icons.Crkbd);
-      },
-    },
-    {
-      label: 'Ergodox',
-      type: 'radio',
-      checked: keyboard === 'Ergodox',
-      click: () => {
-        mainWindow?.webContents.send('switch-keyboard', 'Ergodox');
-        tray?.setImage(icons.Ergodox);
-        mainWindow?.setIcon(icons.Ergodox);
-      },
-    },
+    ...keyboards.map(
+      (kb) =>
+        ({
+          label: kb,
+          type: 'radio',
+          checked: keyboard === kb,
+          click: () => {
+            mainWindow?.webContents.send('switch-keyboard', kb);
+            tray?.setImage(icons[kb]);
+            mainWindow?.setIcon(icons[kb]);
+          },
+        }) as MenuItemConstructorOptions,
+    ),
     { type: 'separator' },
     {
       label: 'Quit',
