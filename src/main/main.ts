@@ -9,20 +9,9 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import { app } from 'electron';
-import * as net from 'net';
-import * as fs from 'fs';
-import {
-  createWindow,
-  showWindow,
-  hideWindow,
-  toggleWindow,
-  getKeepInBackground,
-} from './window';
+import { createWindow, showWindow, getKeepInBackground } from './window';
 import { setupIpcHandlers } from './ipc';
-
-const SOCKET_FILE = '/tmp/keymap.sock';
-
-let socketServer: net.Server | null = null;
+import { initializeSocketServer, cleanupSocketServer } from './socket';
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -65,40 +54,10 @@ if (!singleInstanceLock) {
 }
 
 app.on('ready', () => {
-  if (fs.existsSync(SOCKET_FILE)) {
-    fs.unlinkSync(SOCKET_FILE);
-  }
-
-  socketServer = net
-    .createServer((stream) => {
-      stream.on('data', (data) => {
-        switch (data.toString()) {
-          case 'restore':
-            showWindow().catch(console.log);
-            break;
-          case 'hide':
-            hideWindow();
-            break;
-          case 'toggle':
-            toggleWindow();
-            break;
-          default:
-            console.log(`Unknown message: "${data.toString()}`);
-            break;
-        }
-      });
-    })
-    .listen(SOCKET_FILE);
-
+  initializeSocketServer();
   setupIpcHandlers();
 });
 
 app.on('before-quit', () => {
-  if (socketServer) {
-    socketServer.close();
-    socketServer = null;
-  }
-  if (fs.existsSync(SOCKET_FILE)) {
-    fs.unlinkSync(SOCKET_FILE);
-  }
+  cleanupSocketServer();
 });

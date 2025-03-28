@@ -5,30 +5,29 @@
   - Moved all IPC event handlers from main.ts
   - Set up proper imports and exports
   - Fixed quit functionality
+- ✅ Extract Socket Server to `socket.ts`
+  - Moved socket creation and management
+  - Extracted message handling (restore/hide/toggle)
+  - Added socket cleanup functionality
+  - Moved socket file path constant
 
 ## Pending
 
 ### High Priority
-1. **Socket Server Extraction** → `socket.ts`
-   - Move socket creation and management
-   - Extract message handling (restore/hide/toggle)
-   - Handle socket cleanup
-   - Move socket file path constant
-
-### Medium Priority
-2. **App Lifecycle Management** → `app-lifecycle.ts`
+1. **App Lifecycle Management** → `app-lifecycle.ts`
    - Single instance lock logic
    - Window-all-closed event handler
    - Second-instance handling
    - App activation logic
 
-3. **Development Setup** → `development.ts`
+### Medium Priority
+2. **Development Setup** → `development.ts`
    - Source map support configuration
    - Debug mode setup
    - Development-specific imports
 
 ### Low Priority
-4. **Window State Management** → `window.ts`
+3. **Window State Management** → `window.ts`
    - Remove `getKeepInBackground`/`setKeepInBackground` functions
    - Consider a more elegant way to handle window state
    - Possibly use a state management pattern
