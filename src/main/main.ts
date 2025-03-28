@@ -8,12 +8,7 @@
  * When running `npm run build` or `npm run build:main`, this file is compiled to
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
-import {
-  app,
-  ipcMain,
-  clipboard,
-  Rectangle,
-} from 'electron';
+import { app, ipcMain, clipboard, Rectangle } from 'electron';
 import * as net from 'net';
 import * as fs from 'fs';
 import {

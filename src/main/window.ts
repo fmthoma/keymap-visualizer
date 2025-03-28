@@ -5,7 +5,8 @@ import { resolveHtmlPath } from './util';
 import { icons } from './resources';
 import { initializeTray } from './tray';
 
-const isDevUnpackaged = !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
+const isDevUnpackaged =
+  !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
 
 let mainWindow: BrowserWindow | null = null;
 let keepInBackground: boolean = true;
@@ -84,7 +85,6 @@ export async function createWindow() {
     }
   });
 
-  // Initialize tray
   initializeTray(mainWindow);
 
   return mainWindow;
