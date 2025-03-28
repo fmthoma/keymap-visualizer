@@ -7,9 +7,18 @@ import { initializeTray } from './tray';
 const isDevUnpackaged = !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
 
 let mainWindow: BrowserWindow | null = null;
+let keepInBackground: boolean = true;
 
 export function getMainWindow(): BrowserWindow | null {
   return mainWindow;
+}
+
+export function getKeepInBackground(): boolean {
+  return keepInBackground;
+}
+
+export function setKeepInBackground(value: boolean) {
+  keepInBackground = value;
 }
 
 const installExtensions = async () => {
@@ -25,7 +34,7 @@ const installExtensions = async () => {
     .catch(console.log);
 };
 
-export async function createWindow(keepInBackground: boolean) {
+export async function createWindow() {
   if (isDevUnpackaged) {
     await installExtensions();
   }
@@ -80,12 +89,12 @@ export async function createWindow(keepInBackground: boolean) {
   return mainWindow;
 }
 
-export async function showWindow(keepInBackground: boolean = true) {
+export async function showWindow() {
   if (mainWindow) {
     if (mainWindow.isMinimized()) mainWindow.restore();
     mainWindow.show();
   } else {
-    await createWindow(keepInBackground);
+    await createWindow();
   }
 }
 

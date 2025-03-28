@@ -22,6 +22,8 @@ import {
   hideWindow,
   toggleWindow,
   getMainWindow,
+  setKeepInBackground,
+  getKeepInBackground,
 } from './window';
 import { handleKeyboardSwitch } from './tray';
 import { icons } from './resources';
@@ -29,8 +31,6 @@ import { icons } from './resources';
 const SOCKET_FILE = '/tmp/keymap.sock';
 
 let socketServer: net.Server | null = null;
-
-let keepInBackground: boolean = true;
 
 ipcMain.on('ipc-example', async (event, arg) => {
   const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
@@ -53,7 +53,7 @@ if (isDebug) {
 app.on('window-all-closed', () => {
   // Respect the OSX convention of having the application in memory even
   // after all windows have been closed
-  if (!keepInBackground && process.platform !== 'darwin') {
+  if (!getKeepInBackground() && process.platform !== 'darwin') {
     app.quit();
   }
 });
@@ -65,14 +65,14 @@ if (!singleInstanceLock) {
 } else {
   app.on('second-instance', () => {
     // Someone tried to run a second instance, we should focus our window.
-    showWindow(keepInBackground).catch(console.log);
+    showWindow().catch(console.log);
   });
   app
     .whenReady()
     .then(() => {
-      createWindow(keepInBackground).catch(console.log);
+      createWindow().catch(console.log);
       app.on('activate', () => {
-        showWindow(keepInBackground).catch(console.log);
+        showWindow().catch(console.log);
       });
     })
     .catch(console.log);
@@ -88,7 +88,7 @@ app.on('ready', () => {
       stream.on('data', (data) => {
         switch (data.toString()) {
           case 'restore':
-            showWindow(keepInBackground).catch(console.log);
+            showWindow().catch(console.log);
             break;
           case 'hide':
             hideWindow();
@@ -123,7 +123,7 @@ ipcMain.on('screenshot', (_event, rect: Rectangle) => {
 });
 
 ipcMain.on('quit-application', () => {
-  keepInBackground = false;
+  setKeepInBackground(false);
   app.quit();
 });
 
