@@ -17,12 +17,13 @@ import {
   Menu,
   Tray,
   clipboard,
+  Rectangle,
 } from 'electron';
 import * as net from 'net';
 import * as fs from 'fs';
 import { resolveHtmlPath } from './util';
 
-const isDevUnpackaged = !app.isPackaged && __dirname.includes(".erb/dll");
+const isDevUnpackaged = !app.isPackaged && __dirname.includes('.erb/dll');
 
 const SOCKET_FILE = '/tmp/keymap.sock';
 
@@ -185,7 +186,7 @@ const createWindow = async () => {
  * Add event listeners...
  */
 
-ipcMain.on('screenshot', (_event, rect: Electron.Rectangle) => {
+ipcMain.on('screenshot', (_event, rect: Rectangle) => {
   mainWindow?.webContents
     .capturePage(rect)
     .then((img) => clipboard.writeImage(img, 'clipboard'));
