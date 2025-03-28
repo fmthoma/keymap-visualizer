@@ -15,33 +15,19 @@ import {
   shell,
   ipcMain,
   Menu,
-  Tray,
   clipboard,
   Rectangle,
 } from 'electron';
 import * as net from 'net';
 import * as fs from 'fs';
 import { resolveHtmlPath } from './util';
-
-const isDevUnpackaged = !app.isPackaged && __dirname.includes('.erb/dll');
+import { initializeTray, handleKeyboardSwitch } from './tray';
+import { icons } from './resources';
 
 const SOCKET_FILE = '/tmp/keymap.sock';
-
-const RESOURCES_PATH = isDevUnpackaged
-  ? path.join(__dirname, '../../assets')
-  : path.join(process.resourcesPath, 'assets');
-
-const getAssetPath = (...paths: string[]): string => {
-  return path.join(process.env.RESOURCES_PATH ?? RESOURCES_PATH, ...paths);
-};
-
-const icons = {
-  Crkbd: getAssetPath('crkbd.png'),
-  Ergodox: getAssetPath('ergodox.png'),
-} as const;
+const isDevUnpackaged = !app.isPackaged && __dirname.includes('.erb/dll');
 
 let mainWindow: BrowserWindow | null = null;
-let tray: Tray | null = null;
 let socketServer: net.Server | null = null;
 
 let keepInBackground: boolean = true;
@@ -130,54 +116,21 @@ const createWindow = async () => {
     if (mainWindow && !mainWindow.isDestroyed()) mainWindow.hide();
   });
 
-  tray = new Tray(icons.Crkbd);
-  tray.setToolTip('Keymap Visualizer');
-  const trayContextMenu = (keyboard: 'Crkbd' | 'Ergodox') =>
-    Menu.buildFromTemplate([
-      { label: 'Open', click: () => mainWindow?.show() },
-      { type: 'separator' },
-      {
-        label: 'Crkbd',
-        type: 'radio',
-        checked: keyboard === 'Crkbd',
-        click: () => {
-          mainWindow?.webContents.send('switch-keyboard', 'Crkbd');
-          tray?.setImage(icons.Crkbd);
-          mainWindow?.setIcon(icons.Crkbd);
-        },
-      },
-      {
-        label: 'Ergodox',
-        type: 'radio',
-        checked: keyboard === 'Ergodox',
-        click: () => {
-          mainWindow?.webContents.send('switch-keyboard', 'Ergodox');
-          tray?.setImage(icons.Ergodox);
-          mainWindow?.setIcon(icons.Ergodox);
-        },
-      },
-      { type: 'separator' },
-      {
-        label: 'Quit',
-        click: () => {
-          keepInBackground = false;
-          app.quit();
-        },
-      },
-    ]);
-  tray.setContextMenu(trayContextMenu('Crkbd'));
-  tray.on('click', () => {
-    if (mainWindow && mainWindow.isFocused()) mainWindow.hide();
-    else mainWindow?.show();
+  // Initialize tray
+  initializeTray(mainWindow);
+
+  // Handle quit application event from tray
+  ipcMain.on('quit-application', () => {
+    keepInBackground = false;
+    app.quit();
   });
 
   ipcMain.on(
     'switch-keyboard',
     (_event, selectedKeyboard: keyof typeof icons) => {
-      if (!Object.keys(icons).includes(selectedKeyboard)) return;
-      tray?.setContextMenu(trayContextMenu(selectedKeyboard));
-      tray?.setImage(icons[selectedKeyboard]);
-      mainWindow?.setIcon(icons[selectedKeyboard]);
+      if (mainWindow) {
+        handleKeyboardSwitch(mainWindow, selectedKeyboard);
+      }
     },
   );
 };
