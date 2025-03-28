@@ -8,7 +8,7 @@
  * When running `npm run build` or `npm run build:main`, this file is compiled to
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
-import { app, ipcMain, clipboard, Rectangle } from 'electron';
+import { app } from 'electron';
 import * as net from 'net';
 import * as fs from 'fs';
 import {
@@ -16,22 +16,13 @@ import {
   showWindow,
   hideWindow,
   toggleWindow,
-  getMainWindow,
-  setKeepInBackground,
   getKeepInBackground,
 } from './window';
-import { handleKeyboardSwitch } from './tray';
-import { icons } from './resources';
+import { setupIpcHandlers } from './ipc';
 
 const SOCKET_FILE = '/tmp/keymap.sock';
 
 let socketServer: net.Server | null = null;
-
-ipcMain.on('ipc-example', async (event, arg) => {
-  const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
-  console.log(msgTemplate(arg));
-  event.reply('ipc-example', msgTemplate('pong'));
-});
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -64,8 +55,8 @@ if (!singleInstanceLock) {
   });
   app
     .whenReady()
+    .then(createWindow)
     .then(() => {
-      createWindow().catch(console.log);
       app.on('activate', () => {
         showWindow().catch(console.log);
       });
@@ -98,6 +89,8 @@ app.on('ready', () => {
       });
     })
     .listen(SOCKET_FILE);
+
+  setupIpcHandlers();
 });
 
 app.on('before-quit', () => {
@@ -109,25 +102,3 @@ app.on('before-quit', () => {
     fs.unlinkSync(SOCKET_FILE);
   }
 });
-
-ipcMain.on('screenshot', (_event, rect: Rectangle) => {
-  const mainWindow = getMainWindow();
-  mainWindow?.webContents
-    .capturePage(rect)
-    .then((img) => clipboard.writeImage(img, 'clipboard'));
-});
-
-ipcMain.on('quit-application', () => {
-  setKeepInBackground(false);
-  app.quit();
-});
-
-ipcMain.on(
-  'switch-keyboard',
-  (_event, selectedKeyboard: keyof typeof icons) => {
-    const mainWindow = getMainWindow();
-    if (mainWindow) {
-      handleKeyboardSwitch(mainWindow, selectedKeyboard);
-    }
-  },
-);
