@@ -41,6 +41,7 @@ const icons = {
 
 let mainWindow: BrowserWindow | null = null;
 let tray: Tray | null = null;
+let socketServer: net.Server | null = null;
 
 let keepInBackground: boolean = true;
 
@@ -229,7 +230,7 @@ app.on('ready', () => {
     fs.unlinkSync(SOCKET_FILE);
   }
 
-  net
+  socketServer = net
     .createServer((stream) => {
       stream.on('data', (data) => {
         switch (data.toString()) {
@@ -251,4 +252,14 @@ app.on('ready', () => {
       });
     })
     .listen(SOCKET_FILE);
+});
+
+app.on('before-quit', () => {
+  if (socketServer) {
+    socketServer.close();
+    socketServer = null;
+  }
+  if (fs.existsSync(SOCKET_FILE)) {
+    fs.unlinkSync(SOCKET_FILE);
+  }
 });
