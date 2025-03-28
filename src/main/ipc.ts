@@ -1,6 +1,12 @@
 /* eslint no-console: off */
 import { ipcMain, clipboard, Rectangle } from 'electron';
-import { getMainWindow } from './window';
+import {
+  getMainWindow,
+  showWindow,
+  hideWindow,
+  toggleWindow,
+  quitApp,
+} from './window';
 import { handleKeyboardSwitch } from './tray';
 import { icons } from './resources';
 
@@ -27,4 +33,20 @@ export function setupIpcHandlers() {
       }
     },
   );
+
+  ipcMain.on('show-window', () => {
+    showWindow().catch(console.log);
+  });
+
+  ipcMain.on('hide-window', () => {
+    hideWindow();
+  });
+
+  ipcMain.on('toggle-window', () => {
+    toggleWindow();
+  });
+
+  ipcMain.on('quit-app', () => {
+    quitApp();
+  });
 }

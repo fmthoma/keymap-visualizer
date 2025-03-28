@@ -1,6 +1,5 @@
-import { Tray, Menu, BrowserWindow } from 'electron';
+import { Tray, Menu, BrowserWindow, ipcMain } from 'electron';
 import { icons } from './resources';
-import { quitApp } from './window';
 
 let tray: Tray | null = null;
 
@@ -9,7 +8,7 @@ function setupTrayMenu(
   keyboard: keyof typeof icons,
 ) {
   const trayContextMenu = Menu.buildFromTemplate([
-    { label: 'Open', click: () => mainWindow?.show() },
+    { label: 'Open', click: () => ipcMain.emit('show-window') },
     { type: 'separator' },
     {
       label: 'Crkbd',
@@ -34,7 +33,7 @@ function setupTrayMenu(
     { type: 'separator' },
     {
       label: 'Quit',
-      click: () => quitApp(),
+      click: () => ipcMain.emit('quit-app'),
     },
   ]);
   tray?.setContextMenu(trayContextMenu);
@@ -43,9 +42,9 @@ function setupTrayMenu(
 function setupTrayClickHandler(mainWindow: BrowserWindow) {
   tray?.on('click', () => {
     if (mainWindow && mainWindow.isFocused()) {
-      mainWindow.hide();
+      ipcMain.emit('hide-window');
     } else {
-      mainWindow?.show();
+      ipcMain.emit('show-window');
     }
   });
 }

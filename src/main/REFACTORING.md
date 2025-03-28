@@ -19,38 +19,32 @@
   - Removed `getKeepInBackground`/`setKeepInBackground` functions
   - Implemented cleaner window close behavior with `isQuitting` flag
   - Fixed quit functionality to properly close window and exit app
+- ✅ Resolve Cyclic Dependencies
+  - Broke circular dependency between window.ts and tray.ts
+  - Moved shared state to a separate module
+  - Reviewed and resolved other potential circular dependencies
 
 ## Pending
 
 ### High Priority
-1. **Resolve Cyclic Dependencies**
-   - Break circular dependency between window.ts and tray.ts
-   - Consider moving shared state to a separate module
-   - Review other potential circular dependencies
-
-2. **Error Handling Standardization**
-   - Replace all `console.log` error handling with proper error handling
-   - Add error types for different scenarios
-   - Implement consistent error reporting mechanism
-
-3. **Type Safety Improvements**
+1. **Type Safety Improvements**
    - Add TypeScript interfaces for IPC events
    - Add proper typing for socket messages
    - Remove `any` type from electron-devtools-installer usage
 
 ### Medium Priority
-4. **Code Organization**
+2. **Code Organization**
    - Move `installExtensions` from window.ts to development.ts
    - Consider splitting tray.ts into menu.ts and tray.ts
    - Add proper JSDoc comments to all exported functions
 
-5. **Constants Management**
+3. **Constants Management**
    - Create a constants.ts file for all shared constants
    - Move SOCKET_FILE, window dimensions, etc. there
    - Consider environment-specific configuration
 
 ### Low Priority
-6. **Testing Infrastructure**
+4. **Testing Infrastructure**
    - Add unit tests for utility functions
    - Add integration tests for IPC handlers
    - Add mock implementations for electron APIs

@@ -77,6 +77,7 @@ export async function createWindow() {
     }
   });
 
+  // Initialize tray after window is created
   initializeTray(mainWindow);
 
   return mainWindow;
