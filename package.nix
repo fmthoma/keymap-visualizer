@@ -17,7 +17,7 @@ let
 
     src = ./.;
 
-    npmDepsHash = "sha256-CdalY0l37Y0p1s/ohECm036VYj/teWE/yjL6vjxugK4=";
+    npmDepsHash = "sha256-MmO4BBbu4U/Fc4SO+qb3nX3M0gAvY9fu8cvr8Ag99Z0=";
     npmBuildScript = "build";
     makeCacheWritable = true;
 
