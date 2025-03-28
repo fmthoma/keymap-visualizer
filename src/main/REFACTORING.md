@@ -14,20 +14,13 @@
 ## Pending
 
 ### High Priority
-1. **App Lifecycle Management** → `app-lifecycle.ts`
-   - Single instance lock logic
-   - Window-all-closed event handler
-   - Second-instance handling
-   - App activation logic
-
-### Medium Priority
-2. **Development Setup** → `development.ts`
+1. **Development Setup** → `development.ts`
    - Source map support configuration
    - Debug mode setup
    - Development-specific imports
 
 ### Low Priority
-3. **Window State Management** → `window.ts`
+2. **Window State Management** → `window.ts`
    - Remove `getKeepInBackground`/`setKeepInBackground` functions
    - Consider a more elegant way to handle window state
    - Possibly use a state management pattern
@@ -40,4 +33,5 @@
 ## Notes
 - Keep modules small and focused
 - Maintain clear separation of concerns
-- Document any breaking changes 
+- Document any breaking changes
+- App lifecycle management stays in main.ts as it's the core responsibility of the main process
