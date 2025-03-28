@@ -12,6 +12,10 @@ export function KeyboardSwitcher() {
     window.electron.onSwitchKeyboard(setKeyboard);
   }, []);
 
+  useEffect(() => {
+    document.title = `${keyboard} Keymap`;
+  }, [keyboard]);
+
   useEventListener('keydown', (e: KeyboardEvent) => {
     if (e.code !== 'Tab') return;
     if (!e.ctrlKey || e.altKey || e.metaKey) return;
