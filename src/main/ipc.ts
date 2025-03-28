@@ -1,6 +1,6 @@
 /* eslint no-console: off */
-import { ipcMain, clipboard, Rectangle, app } from 'electron';
-import { getMainWindow, setKeepInBackground } from './window';
+import { ipcMain, clipboard, Rectangle } from 'electron';
+import { getMainWindow } from './window';
 import { handleKeyboardSwitch } from './tray';
 import { icons } from './resources';
 
@@ -16,11 +16,6 @@ export function setupIpcHandlers() {
     mainWindow?.webContents
       .capturePage(rect)
       .then((img) => clipboard.writeImage(img, 'clipboard'));
-  });
-
-  ipcMain.on('quit-application', () => {
-    setKeepInBackground(false);
-    app.quit();
   });
 
   ipcMain.on(

@@ -1,5 +1,6 @@
-import { Tray, Menu, BrowserWindow } from 'electron';
+import { Tray, Menu, BrowserWindow, app } from 'electron';
 import { icons } from './resources';
+import { setKeepInBackground } from './window';
 
 let tray: Tray | null = null;
 
@@ -34,7 +35,8 @@ function setupTrayMenu(
     {
       label: 'Quit',
       click: () => {
-        mainWindow?.webContents.send('quit-application');
+        setKeepInBackground(false);
+        app.quit();
       },
     },
   ]);
@@ -66,8 +68,4 @@ export function handleKeyboardSwitch(
   setupTrayMenu(mainWindow, selectedKeyboard);
   tray?.setImage(icons[selectedKeyboard]);
   mainWindow?.setIcon(icons[selectedKeyboard]);
-}
-
-export function destroyTray() {
-  tray = null;
 }
