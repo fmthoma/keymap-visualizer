@@ -23,6 +23,10 @@
   - Broke circular dependency between window.ts and tray.ts
   - Moved shared state to a separate module
   - Reviewed and resolved other potential circular dependencies
+- ✅ Code Organization
+  - Moved `installExtensions` from window.ts to development.ts
+  - Extracted tray menu creation into separate function
+  - Improved code organization and readability
 
 ## Pending
 
@@ -33,18 +37,13 @@
    - Remove `any` type from electron-devtools-installer usage
 
 ### Medium Priority
-2. **Code Organization**
-   - Move `installExtensions` from window.ts to development.ts
-   - Consider splitting tray.ts into menu.ts and tray.ts
-   - Add proper JSDoc comments to all exported functions
-
-3. **Constants Management**
+2. **Constants Management**
    - Create a constants.ts file for all shared constants
    - Move SOCKET_FILE, window dimensions, etc. there
    - Consider environment-specific configuration
 
 ### Low Priority
-4. **Testing Infrastructure**
+3. **Testing Infrastructure**
    - Add unit tests for utility functions
    - Add integration tests for IPC handlers
    - Add mock implementations for electron APIs

@@ -10,8 +10,8 @@ import { Keyboard, keyboards } from '../types';
 
 let tray: Tray | null = null;
 
-function setupTrayMenu(mainWindow: BrowserWindow, keyboard: Keyboard) {
-  const trayContextMenu = Menu.buildFromTemplate([
+function createTrayMenu(mainWindow: BrowserWindow, keyboard: Keyboard): Menu {
+  return Menu.buildFromTemplate([
     { label: 'Open', click: () => ipcMain.emit('show-window') },
     { type: 'separator' },
     ...keyboards.map(
@@ -33,7 +33,6 @@ function setupTrayMenu(mainWindow: BrowserWindow, keyboard: Keyboard) {
       click: () => ipcMain.emit('quit-app'),
     },
   ]);
-  tray?.setContextMenu(trayContextMenu);
 }
 
 function setupTrayClickHandler(mainWindow: BrowserWindow) {
@@ -49,7 +48,7 @@ function setupTrayClickHandler(mainWindow: BrowserWindow) {
 export function initializeTray(mainWindow: BrowserWindow) {
   tray = new Tray(icons.Crkbd);
   tray.setToolTip('Keymap Visualizer');
-  setupTrayMenu(mainWindow, 'Crkbd');
+  tray.setContextMenu(createTrayMenu(mainWindow, 'Crkbd'));
   setupTrayClickHandler(mainWindow);
 }
 
@@ -58,7 +57,7 @@ export function handleKeyboardSwitch(
   selectedKeyboard: Keyboard,
 ) {
   if (!Object.keys(icons).includes(selectedKeyboard)) return;
-  setupTrayMenu(mainWindow, selectedKeyboard);
+  tray?.setContextMenu(createTrayMenu(mainWindow, selectedKeyboard));
   tray?.setImage(icons[selectedKeyboard]);
   mainWindow?.setIcon(icons[selectedKeyboard]);
 }
