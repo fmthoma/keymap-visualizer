@@ -4,6 +4,7 @@ import { BrowserWindow, shell, Menu, app } from 'electron';
 import { resolveHtmlPath } from './util';
 import { icons } from './resources';
 import { initializeTray } from './tray';
+import { installExtensions } from './development';
 
 const isDevUnpackaged =
   !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
@@ -14,19 +15,6 @@ let isQuitting = false;
 export function getMainWindow(): BrowserWindow | null {
   return mainWindow;
 }
-
-const installExtensions = async () => {
-  const installer = await import('electron-devtools-installer');
-  const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
-  const extensions = ['REACT_DEVELOPER_TOOLS'];
-
-  return installer
-    .default(
-      extensions.map((name) => (installer as any)[name]),
-      forceDownload,
-    )
-    .catch(console.log);
-};
 
 export async function createWindow() {
   if (isDevUnpackaged) {
