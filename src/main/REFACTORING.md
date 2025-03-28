@@ -10,14 +10,19 @@
   - Extracted message handling (restore/hide/toggle)
   - Added socket cleanup functionality
   - Moved socket file path constant
+- ✅ Extract Development Setup to `development.ts`
+  - Moved source map support configuration
+  - Extracted debug mode setup
+  - Centralized development-specific imports
+  - Exported isDebug constant for reuse
 
 ## Pending
 
 ### High Priority
-1. **Development Setup** → `development.ts`
-   - Source map support configuration
-   - Debug mode setup
-   - Development-specific imports
+1. **Window State Management** → `window.ts`
+   - Remove `getKeepInBackground`/`setKeepInBackground` functions
+   - Consider a more elegant way to handle window state
+   - Possibly use a state management pattern
 
 ### Low Priority
 2. **Window State Management** → `window.ts`

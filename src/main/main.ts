@@ -12,18 +12,9 @@ import { app } from 'electron';
 import { createWindow, showWindow, getKeepInBackground } from './window';
 import { setupIpcHandlers } from './ipc';
 import { initializeSocketServer, cleanupSocketServer } from './socket';
+import { setupDevelopmentTools } from './development';
 
-if (process.env.NODE_ENV === 'production') {
-  const sourceMapSupport = require('source-map-support');
-  sourceMapSupport.install();
-}
-
-const isDebug =
-  process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
-
-if (isDebug) {
-  require('electron-debug')();
-}
+setupDevelopmentTools();
 
 app.on('window-all-closed', () => {
   // Respect the OSX convention of having the application in memory even
