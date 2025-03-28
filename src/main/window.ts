@@ -1,6 +1,6 @@
 /* eslint global-require: off, no-console: off */
 import path from 'path';
-import { BrowserWindow, shell, Menu } from 'electron';
+import { BrowserWindow, shell, Menu, app } from 'electron';
 import { resolveHtmlPath } from './util';
 import { icons } from './resources';
 import { initializeTray } from './tray';
@@ -9,18 +9,10 @@ const isDevUnpackaged =
   !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
 
 let mainWindow: BrowserWindow | null = null;
-let keepInBackground: boolean = true;
+let isQuitting = false;
 
 export function getMainWindow(): BrowserWindow | null {
   return mainWindow;
-}
-
-export function getKeepInBackground(): boolean {
-  return keepInBackground;
-}
-
-export function setKeepInBackground(value: boolean) {
-  keepInBackground = value;
 }
 
 const installExtensions = async () => {
@@ -79,7 +71,7 @@ export async function createWindow() {
   });
 
   mainWindow.on('close', (e) => {
-    if (keepInBackground) {
+    if (!isQuitting) {
       e.preventDefault();
       if (mainWindow && !mainWindow.isDestroyed()) mainWindow.hide();
     }
@@ -109,4 +101,10 @@ export function toggleWindow() {
   } else {
     showWindow();
   }
+}
+
+export function quitApp() {
+  isQuitting = true;
+  mainWindow?.close();
+  app.quit();
 }

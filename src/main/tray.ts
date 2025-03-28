@@ -1,6 +1,6 @@
-import { Tray, Menu, BrowserWindow, app } from 'electron';
+import { Tray, Menu, BrowserWindow } from 'electron';
 import { icons } from './resources';
-import { setKeepInBackground } from './window';
+import { quitApp } from './window';
 
 let tray: Tray | null = null;
 
@@ -34,10 +34,7 @@ function setupTrayMenu(
     { type: 'separator' },
     {
       label: 'Quit',
-      click: () => {
-        setKeepInBackground(false);
-        app.quit();
-      },
+      click: () => quitApp(),
     },
   ]);
   tray?.setContextMenu(trayContextMenu);

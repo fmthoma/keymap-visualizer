@@ -9,7 +9,7 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import { app } from 'electron';
-import { createWindow, showWindow, getKeepInBackground } from './window';
+import { createWindow, showWindow } from './window';
 import { setupIpcHandlers } from './ipc';
 import { initializeSocketServer, cleanupSocketServer } from './socket';
 import { setupDevelopmentTools } from './development';
@@ -19,7 +19,7 @@ setupDevelopmentTools();
 app.on('window-all-closed', () => {
   // Respect the OSX convention of having the application in memory even
   // after all windows have been closed
-  if (!getKeepInBackground() && process.platform !== 'darwin') {
+  if (process.platform !== 'darwin') {
     app.quit();
   }
 });
